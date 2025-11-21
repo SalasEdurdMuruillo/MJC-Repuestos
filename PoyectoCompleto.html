@@ -16,33 +16,47 @@
 
     <!-- HEADER -->
     <header>
-        <div class="container d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-3">
-                <div
-                    style="width:84px; height:44px; border-radius:10px; background:#000; display:flex; align-items:center; justify-content:center; overflow:hidden;">
-                    <img src="imagenes/logo.jpg" alt="Logo" style="width:100%; height:100%; object-fit:cover;">
-                </div>
-                <div>
-                    <div class="brand">MJC</div>
-                    <div class="small-muted">Repuestos y accesorios</div>
-                </div>
-            </div>
-
-            <div class="d-flex align-items-center gap-2">
-                <div class="input-group" style="min-width:340px;max-width:520px">
-                    <span class="input-group-text bg-transparent border-0 text-white" id="searchIcon"><i
-                            class="bi bi-search"></i></span>
-                    <input id="searchTop" class="form-control form-control-sm bg-transparent border-0"
-                        placeholder="Buscar producto, código o categoría..." aria-label="Buscar" />
+        <div class="container">
+            <div class="row align-items-center g-3">
+                <!-- Logo - Izquierda -->
+                <div class="col-auto">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="logo-container">
+                            <img src="images/MJCsinfondo.png" alt="Logo">
+                        </div>
+                    </div>
                 </div>
 
-                <button class="btn btn-ghost btn-sm" aria-label="Cuenta" onclick="checkLoginAndOpen()"
-                    title="Mi cuenta"><i class="bi bi-person"></i></button>
-                <button class="btn btn-ghost btn-sm" aria-label="Carrito" onclick="openSection('cart')"
-                    title="Carrito"><i class="bi bi-cart3"></i> <span id="cartCount"
-                        class="badge-cart ms-1">0</span></button>
-                <button id="themeToggle" class="btn btn-ghost btn-sm" title="Modo oscuro/claro"><i
-                        class="bi bi-moon-stars"></i></button>
+                <!-- Búsqueda - Centro -->
+                <div class="col">
+                    <div class="search-wrapper mx-auto">
+                        <i class="bi bi-search search-icon"></i>
+                        <input id="searchTop" class="search-input" placeholder="Buscar producto, código o categoría..."
+                            aria-label="Buscar" />
+                    </div>
+                </div>
+
+                <!-- Iconos - Derecha -->
+                <div class="col-auto">
+                    <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-ghost btn-sm" aria-label="Cuenta" onclick="checkLoginAndOpen()"
+                            title="Mi cuenta">
+                            <i class="bi bi-person"></i>
+                        </button>
+                        <button class="btn btn-ghost btn-sm" aria-label="Favoritos" onclick="openSection('favorites')"
+                            title="Favoritos">
+                            <i class="bi bi-heart"></i>
+                        </button>
+                        <button class="btn btn-ghost btn-sm" aria-label="Carrito" onclick="openSection('cart')"
+                            title="Carrito">
+                            <i class="bi bi-cart3"></i>
+                            <span id="cartCount" class="badge-cart ms-1">0</span>
+                        </button>
+                        <button id="themeToggle" class="btn btn-ghost btn-sm" title="Modo oscuro/claro">
+                            <i class="bi bi-moon-stars"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -50,12 +64,30 @@
     <!-- NAV -->
     <nav class="bg-panel" role="navigation" aria-label="Principal">
         <div class="container d-flex gap-2 align-items-center">
-            <a class="nav-link" onclick="openSection('home')">Inicio</a>
-            <a class="nav-link" onclick="openSection('catalog')">Catálogo</a>
-            <a class="nav-link" onclick="openSection('categories')">Categorías</a>
-            <a class="nav-link" onclick="openSection('offers')">Ofertas</a>
-            <a class="nav-link" onclick="openSection('policies')">Políticas</a>
-            <a class="nav-link" onclick="openSection('contact')">Sobre Nosotros</a>
+            <a class="nav-link" onclick="openSection('home')">
+                <i class="bi bi-house-door"></i>
+                <span>Inicio</span>
+            </a>
+            <a class="nav-link" onclick="openSection('catalog')">
+                <i class="bi bi-grid"></i>
+                <span>Catálogo</span>
+            </a>
+            <a class="nav-link" onclick="openSection('categories')">
+                <i class="bi bi-tags"></i>
+                <span>Categorías</span>
+            </a>
+            <a class="nav-link" onclick="openSection('offers')">
+                <i class="bi bi-percent"></i>
+                <span>Ofertas</span>
+            </a>
+            <a class="nav-link" onclick="openSection('policies')">
+                <i class="bi bi-shield-check"></i>
+                <span>Políticas</span>
+            </a>
+            <a class="nav-link" onclick="openSection('contact')">
+                <i class="bi bi-info-circle"></i>
+                <span>Sobre Nosotros</span>
+            </a>
             <div class="ms-auto small-muted">© 2025 Repuestos MJC</div>
         </div>
     </nav>
@@ -613,25 +645,37 @@
         </section>
 
         <section id="admin" class="spa-section page-hidden" aria-hidden="true">
-            <h3 class="mb-4">Panel de Administración</h3>
+            <div class="admin-header">
+                <h3 class="mb-0">Panel de Administración</h3>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-ghost" onclick="openSection('home')">
+                        <i class="bi bi-house-door me-1"></i>Ir al inicio
+                    </button>
+                    <button class="btn btn-main" onclick="doLogout()">
+                        <i class="bi bi-box-arrow-right me-1"></i>Cerrar sesión
+                    </button>
+                </div>
+            </div>
+
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-lg-3 mb-3">
                     <div class="admin-sidebar">
-                        <a onclick="showAdminPanel('products')" class="active" id="adminLinkProducts">
-                            <i class="bi bi-box-seam me-2"></i>Productos
+                        <a onclick="showAdminPanel('products')" class="admin-menu-item active" id="adminLinkProducts">
+                            <i class="bi bi-box-seam"></i>
+                            <span>Productos</span>
                         </a>
-                        <a onclick="showAdminPanel('stats')" id="adminLinkStats">
-                            <i class="bi bi-graph-up me-2"></i>Estadísticas
+                        <a onclick="showAdminPanel('stats')" class="admin-menu-item" id="adminLinkStats">
+                            <i class="bi bi-graph-up"></i>
+                            <span>Estadísticas</span>
                         </a>
-                        <a onclick="showAdminPanel('adminOrders')" id="adminLinkOrders">
-                            <i class="bi bi-receipt me-2"></i>Pedidos
-                        </a>
-                        <a onclick="openSection('home')" class="mt-3">
-                            <i class="bi bi-arrow-left me-2"></i>Salir del panel
+                        <a onclick="showAdminPanel('adminOrders')" class="admin-menu-item" id="adminLinkOrders">
+                            <i class="bi bi-receipt"></i>
+                            <span>Pedidos</span>
                         </a>
                     </div>
                 </div>
-                <div class="col-md-9">
+
+                <div class="col-lg-9">
                     <div id="adminContent">
                         <div class="product-card">
                             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -800,8 +844,8 @@
                         Facebook</a>
                     <a class="btn btn-instagram" href="#" aria-label="Instagram"><i class="bi bi-instagram"></i>
                         Instagram</a>
-                    <a class="btn btn-twitter" href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i>
-                        Twitter</a>
+                    <a class="btn btn-tiktok" href="#" aria-label="TikTok"><i class="bi bi-tiktok-x"></i>
+                        TikTok</a>
                     <a class="btn btn-youtube" href="#" aria-label="YouTube"><i class="bi bi-youtube"></i> YouTube</a>
                 </div>
             </div>
