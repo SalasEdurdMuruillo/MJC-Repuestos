@@ -257,21 +257,247 @@
             <div class="login-container">
                 <div class="product-card">
                     <h3 class="text-center mb-4">Iniciar Sesión</h3>
+
+                    <!-- Formulario tradicional -->
                     <div class="mb-3">
                         <label class="form-label">Correo electrónico</label>
-                        <input type="email" id="loginEmailPage" class="form-control" placeholder="correo@ejemplo.com" />
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0">
+                                <i class="bi bi-envelope"></i>
+                            </span>
+                            <input type="email" id="loginEmailPage" class="form-control border-start-0"
+                                placeholder="correo@ejemplo.com" />
+                        </div>
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label">Contraseña</label>
-                        <input type="password" id="loginPassPage" class="form-control" placeholder="••••••••" />
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0">
+                                <i class="bi bi-lock"></i>
+                            </span>
+                            <input type="password" id="loginPassPage" class="form-control border-start-0"
+                                placeholder="••••••••" />
+                            <button class="btn btn-ghost border" type="button"
+                                onclick="togglePasswordVisibility('loginPassPage')">
+                                <i class="bi bi-eye" id="loginPassPage-icon"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="rememberMe">
-                        <label class="form-check-label" for="rememberMe">Recordarme</label>
+
+                    <div class="mb-3 d-flex justify-content-between align-items-center">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Recordarme</label>
+                        </div>
+                        <a class="card-link small" onclick="showForgotPassword()">¿Olvidaste tu contraseña?</a>
                     </div>
-                    <button class="btn btn-main w-100 mb-3" onclick="doLoginPage()">Iniciar Sesión</button>
+
+                    <button class="btn btn-main w-100 mb-3" onclick="doLoginPage()">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>
+                        Iniciar Sesión
+                    </button>
+
+                    <!-- Divisor -->
+                    <div class="divider-container mb-3">
+                        <hr class="divider-line">
+                        <span class="divider-text">O continúa con</span>
+                        <hr class="divider-line">
+                    </div>
+
+                    <!-- Botones de redes sociales -->
+                    <div class="d-grid gap-2 mb-3">
+                        <button class="btn btn-social btn-google" onclick="loginWithGoogle()">
+                            <i class="bi bi-google me-2"></i>
+                            Continuar con Google
+                        </button>
+                        <button class="btn btn-social btn-facebook" onclick="loginWithFacebook()">
+                            <i class="bi bi-facebook me-2"></i>
+                            Continuar con Facebook
+                        </button>
+                    </div>
+
                     <div class="text-center">
-                        <a class="card-link" onclick="openSection('register')">¿No tienes cuenta? Regístrate</a>
+                        <span class="small-muted">¿No tienes cuenta? </span>
+                        <a class="card-link" onclick="openSection('register')">Regístrate aquí</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="register" class="spa-section page-hidden" aria-hidden="true">
+            <div class="login-container">
+                <div class="product-card">
+                    <h3 class="text-center mb-4">Crear Cuenta</h3>
+
+                    <!-- Formulario tradicional -->
+                    <div class="mb-3">
+                        <label class="form-label">Nombre completo</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            <input type="text" id="regName" class="form-control border-start-0"
+                                placeholder="Juan Pérez" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Correo electrónico</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0">
+                                <i class="bi bi-envelope"></i>
+                            </span>
+                            <input type="email" id="regEmail" class="form-control border-start-0"
+                                placeholder="correo@ejemplo.com" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Contraseña</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0">
+                                <i class="bi bi-lock"></i>
+                            </span>
+                            <input type="password" id="regPass" class="form-control border-start-0"
+                                placeholder="••••••••" />
+                            <button class="btn btn-ghost border" type="button"
+                                onclick="togglePasswordVisibility('regPass')">
+                                <i class="bi bi-eye" id="regPass-icon"></i>
+                            </button>
+                        </div>
+                        <small class="form-text text-muted">Mínimo 8 caracteres</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Confirmar contraseña</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0">
+                                <i class="bi bi-lock-fill"></i>
+                            </span>
+                            <input type="password" id="regPassConfirm" class="form-control border-start-0"
+                                placeholder="••••••••" />
+                            <button class="btn btn-ghost border" type="button"
+                                onclick="togglePasswordVisibility('regPassConfirm')">
+                                <i class="bi bi-eye" id="regPassConfirm-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="acceptTerms">
+                        <label class="form-check-label" for="acceptTerms">
+                            Acepto los <a class="card-link" onclick="openSection('policies')">términos y condiciones</a>
+                        </label>
+                    </div>
+
+                    <button class="btn btn-main w-100 mb-3" onclick="doRegister()">
+                        <i class="bi bi-person-plus me-2"></i>
+                        Crear Cuenta
+                    </button>
+
+
+                    <div class="text-center">
+                        <span class="small-muted">¿Ya tienes cuenta? </span>
+                        <a class="card-link" onclick="openSection('login')">Inicia sesión</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="register" class="spa-section page-hidden" aria-hidden="true">
+            <div class="login-container">
+                <div class="product-card">
+                    <h3 class="text-center mb-4">Crear Cuenta</h3>
+
+                    <!-- Botones de redes sociales -->
+                    <div class="d-grid gap-2 mb-4">
+                        <button class="btn btn-social btn-google" onclick="registerWithGoogle()">
+                            <i class="bi bi-google me-2"></i>
+                            Registrarse con Google
+                        </button>
+                        <button class="btn btn-social btn-facebook" onclick="registerWithFacebook()">
+                            <i class="bi bi-facebook me-2"></i>
+                            Registrarse con Facebook
+                        </button>
+                    </div>
+
+                    <!-- Divisor -->
+                    <div class="divider-container mb-4">
+                        <hr class="divider-line">
+                        <span class="divider-text">O regístrate con email</span>
+                        <hr class="divider-line">
+                    </div>
+
+                    <!-- Formulario tradicional -->
+                    <div class="mb-3">
+                        <label class="form-label">Nombre completo</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            <input type="text" id="regName" class="form-control border-start-0"
+                                placeholder="Juan Pérez" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Correo electrónico</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0">
+                                <i class="bi bi-envelope"></i>
+                            </span>
+                            <input type="email" id="regEmail" class="form-control border-start-0"
+                                placeholder="correo@ejemplo.com" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Contraseña</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0">
+                                <i class="bi bi-lock"></i>
+                            </span>
+                            <input type="password" id="regPass" class="form-control border-start-0"
+                                placeholder="••••••••" />
+                            <button class="btn btn-ghost border" type="button"
+                                onclick="togglePasswordVisibility('regPass')">
+                                <i class="bi bi-eye" id="regPass-icon"></i>
+                            </button>
+                        </div>
+                        <small class="form-text text-muted">Mínimo 8 caracteres</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Confirmar contraseña</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0">
+                                <i class="bi bi-lock-fill"></i>
+                            </span>
+                            <input type="password" id="regPassConfirm" class="form-control border-start-0"
+                                placeholder="••••••••" />
+                            <button class="btn btn-ghost border" type="button"
+                                onclick="togglePasswordVisibility('regPassConfirm')">
+                                <i class="bi bi-eye" id="regPassConfirm-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="acceptTerms">
+                        <label class="form-check-label" for="acceptTerms">
+                            Acepto los <a class="card-link" onclick="openSection('policies')">términos y condiciones</a>
+                        </label>
+                    </div>
+
+                    <button class="btn btn-main w-100 mb-3" onclick="doRegister()">
+                        <i class="bi bi-person-plus me-2"></i>
+                        Crear Cuenta
+                    </button>
+
+                    <div class="text-center">
+                        <span class="small-muted">¿Ya tienes cuenta? </span>
+                        <a class="card-link" onclick="openSection('login')">Inicia sesión</a>
                     </div>
                 </div>
             </div>

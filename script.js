@@ -891,6 +891,365 @@ function initApp() {
         saveState();
     }
 }
+function loginWithGoogle() {
+    // En producción, aquí irían las credenciales de Google OAuth
+    // Por ahora, simulamos el proceso
+    
+    toast('Conectando con Google...', 'default');
+    
+    // Simulación de respuesta de Google
+    setTimeout(() => {
+        const googleUser = {
+            id: 'google_' + Date.now(),
+            name: 'Usuario de Google',
+            email: 'usuario@gmail.com',
+            provider: 'google',
+            profilePicture: null,
+            isAdmin: false,
+            createdAt: new Date().toISOString()
+        };
+        
+        // Verificar si el usuario ya existe
+        let existingUser = users.find(u => u.email === googleUser.email);
+        
+        if (existingUser) {
+            // Usuario existente - actualizar información
+            existingUser.provider = 'google';
+            existingUser.lastLogin = new Date().toISOString();
+            currentUser = existingUser;
+        } else {
+            // Nuevo usuario - registrar
+            googleUser.id = users.length + 1;
+            users.push(googleUser);
+            currentUser = googleUser;
+        }
+        
+        saveState();
+        toast('Sesión iniciada con Google', 'success');
+        openSection('account');
+    }, 1500);
+}
+
+// Simular login con Facebook
+function loginWithFacebook() {
+    // En producción, aquí irían las credenciales de Facebook OAuth
+    toast('Conectando con Facebook...', 'default');
+    
+    setTimeout(() => {
+        const facebookUser = {
+            id: 'facebook_' + Date.now(),
+            name: 'Usuario de Facebook',
+            email: 'usuario@facebook.com',
+            provider: 'facebook',
+            profilePicture: null,
+            isAdmin: false,
+            createdAt: new Date().toISOString()
+        };
+        
+        let existingUser = users.find(u => u.email === facebookUser.email);
+        
+        if (existingUser) {
+            existingUser.provider = 'facebook';
+            existingUser.lastLogin = new Date().toISOString();
+            currentUser = existingUser;
+        } else {
+            facebookUser.id = users.length + 1;
+            users.push(facebookUser);
+            currentUser = facebookUser;
+        }
+        
+        saveState();
+        toast('Sesión iniciada con Facebook', 'success');
+        openSection('account');
+    }, 1500);
+}
+
+// Registro con Google
+function registerWithGoogle() {
+    loginWithGoogle(); // Mismo proceso que login
+}
+
+// Registro con Facebook
+function registerWithFacebook() {
+    loginWithFacebook(); // Mismo proceso que login
+}
+
+// ============ FUNCIÓN MEJORADA DE LOGIN TRADICIONAL ============
+
+function doLoginPage() {
+    const email = document.getElementById('loginEmailPage').value.trim();
+    const pass = document.getElementById('loginPassPage').value;
+    const remember = document.getElementById('rememberMe').checked;
+    
+    // Validaciones
+    if (!email) {
+        toast('Por favor ingresa tu correo electrónico', 'warn');
+        document.getElementById('loginEmailPage').focus();
+        return;
+    }
+    
+    if (!isValidEmail(email)) {
+        toast('Por favor ingresa un correo válido', 'warn');
+        document.getElementById('loginEmailPage').focus();
+        return;
+    }
+    
+    if (!pass) {
+        toast('Por favor ingresa tu contraseña', 'warn');
+        document.getElementById('loginPassPage').focus();
+        return;
+    }
+    
+    // Buscar usuario
+    const user = users.find(u => u.email === email && u.password === pass);
+    
+    if (!user) {
+        toast('Correo o contraseña incorrectos', 'warn');
+        return;
+    }
+    
+    // Login exitoso
+    user.lastLogin = new Date().toISOString();
+    currentUser = user;
+    
+    // Guardar preferencia de recordar
+    if (remember) {
+        localStorage.setItem('rememberUser', JSON.stringify({
+            email: email,
+            timestamp: Date.now()
+        }));
+    } else {
+        localStorage.removeItem('rememberUser');
+    }
+    
+    saveState();
+    toast('¡Bienvenido ' + user.name + '!', 'success');
+    
+    // Redirigir según tipo de usuario
+    if (user.isAdmin) {
+        openSection('admin');
+    } else {
+        openSection('account');
+    }
+    
+    // Limpiar campos
+    document.getElementById('loginEmailPage').value = '';
+    document.getElementById('loginPassPage').value = '';
+}
+
+// ============ FUNCIÓN MEJORADA DE REGISTRO ============
+
+function doRegister() {
+    const name = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const pass = document.getElementById('regPass').value;
+    const passConfirm = document.getElementById('regPassConfirm').value;
+    const acceptTerms = document.getElementById('acceptTerms').checked;
+
+    // Validaciones
+    if (!name) {
+        toast('Por favor ingresa tu nombre completo', 'warn');
+        document.getElementById('regName').focus();
+        return;
+    }
+    
+    if (name.length < 3) {
+        toast('El nombre debe tener al menos 3 caracteres', 'warn');
+        return;
+    }
+    
+    if (!email) {
+        toast('Por favor ingresa tu correo electrónico', 'warn');
+        document.getElementById('regEmail').focus();
+        return;
+    }
+    
+    if (!isValidEmail(email)) {
+        toast('Por favor ingresa un correo válido', 'warn');
+        return;
+    }
+    
+    if (!pass) {
+        toast('Por favor ingresa una contraseña', 'warn');
+        document.getElementById('regPass').focus();
+        return;
+    }
+    
+    if (pass.length < 8) {
+        toast('La contraseña debe tener al menos 8 caracteres', 'warn');
+        return;
+    }
+    
+    if (!passConfirm) {
+        toast('Por favor confirma tu contraseña', 'warn');
+        document.getElementById('regPassConfirm').focus();
+        return;
+    }
+    
+    if (pass !== passConfirm) {
+        toast('Las contraseñas no coinciden', 'warn');
+        return;
+    }
+    
+    if (!acceptTerms) {
+        toast('Debes aceptar los términos y condiciones', 'warn');
+        return;
+    }
+    
+    // Verificar si el usuario ya existe
+    if (users.find(u => u.email === email)) {
+        toast('Este correo ya está registrado', 'warn');
+        return;
+    }
+    
+    // Crear nuevo usuario
+    const newUser = {
+        id: users.length + 1,
+        name: name,
+        email: email,
+        password: pass,
+        provider: 'email',
+        isAdmin: false,
+        createdAt: new Date().toISOString(),
+        lastLogin: new Date().toISOString()
+    };
+    
+    users.push(newUser);
+    currentUser = newUser;
+    saveState();
+    
+    toast('¡Cuenta creada exitosamente!', 'success');
+    openSection('account');
+    
+    // Limpiar formulario
+    document.getElementById('regName').value = '';
+    document.getElementById('regEmail').value = '';
+    document.getElementById('regPass').value = '';
+    document.getElementById('regPassConfirm').value = '';
+    document.getElementById('acceptTerms').checked = false;
+}
+
+// ============ FUNCIONES AUXILIARES ============
+
+// Validar formato de email
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Mostrar/ocultar contraseña
+function togglePasswordVisibility(inputId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(inputId + '-icon');
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'bi bi-eye-slash';
+    } else {
+        input.type = 'password';
+        icon.className = 'bi bi-eye';
+    }
+}
+
+// Mostrar formulario de recuperación de contraseña
+function showForgotPassword() {
+    const email = prompt('Ingresa tu correo electrónico para recuperar tu contraseña:');
+    
+    if (!email) return;
+    
+    if (!isValidEmail(email)) {
+        toast('Por favor ingresa un correo válido', 'warn');
+        return;
+    }
+    
+    const user = users.find(u => u.email === email);
+    
+    if (!user) {
+        toast('No encontramos una cuenta con ese correo', 'warn');
+        return;
+    }
+    
+    // Simulación de envío de email
+    toast('Se ha enviado un enlace de recuperación a tu correo', 'success');
+}
+
+// Verificar si hay sesión recordada al cargar
+function checkRememberedUser() {
+    const remembered = localStorage.getItem('rememberUser');
+    
+    if (remembered) {
+        try {
+            const data = JSON.parse(remembered);
+            const daysSince = (Date.now() - data.timestamp) / (1000 * 60 * 60 * 24);
+            
+            // Si han pasado menos de 30 días, prellenar el email
+            if (daysSince < 30) {
+                const emailInput = document.getElementById('loginEmailPage');
+                if (emailInput) {
+                    emailInput.value = data.email;
+                    document.getElementById('rememberMe').checked = true;
+                }
+            } else {
+                localStorage.removeItem('rememberUser');
+            }
+        } catch (e) {
+            localStorage.removeItem('rememberUser');
+        }
+    }
+}
+
+// ============ ACTUALIZAR FUNCIÓN DE LOGOUT ============
+
+function doLogout() {
+    if (!confirm('¿Cerrar sesión?')) return;
+    
+    // Limpiar datos del usuario actual
+    currentUser = null;
+    
+    // No eliminar la preferencia de recordar
+    // Solo limpiar la sesión actual
+    
+    saveState();
+    toast('Sesión cerrada exitosamente', 'success');
+    openSection('home');
+}
+
+// ============ INICIALIZAR AL CARGAR LA PÁGINA ============
+
+// Agregar al final del initApp() existente:
+function initAppEnhanced() {
+    // Código existente de initApp()...
+    
+    // Verificar sesión recordada
+    checkRememberedUser();
+    
+    // Verificar si hay sesión activa al cargar
+    if (currentUser) {
+        console.log('Sesión activa detectada:', currentUser.name);
+    }
+}
+
+// Agregar event listeners para Enter en campos de login
+document.addEventListener('DOMContentLoaded', function() {
+    const loginEmail = document.getElementById('loginEmailPage');
+    const loginPass = document.getElementById('loginPassPage');
+    
+    if (loginEmail) {
+        loginEmail.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginPassPage').focus();
+            }
+        });
+    }
+    
+    if (loginPass) {
+        loginPass.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                doLoginPage();
+            }
+        });
+    }
+});
 
 window.addEventListener('resize', () => renderCarousels());
 window.openSection = openSection;
@@ -927,5 +1286,11 @@ window.goToStep = goToStep;
 window.applyFilter = applyFilter;
 window.renderCatalog = renderCatalog;
 window.currentProductId = null;
+window.loginWithGoogle = loginWithGoogle;
+window.loginWithFacebook = loginWithFacebook;
+window.registerWithGoogle = registerWithGoogle;
+window.registerWithFacebook = registerWithFacebook;
+window.togglePasswordVisibility = togglePasswordVisibility;
+window.showForgotPassword = showForgotPassword;
 
 initApp();
