@@ -1,0 +1,502 @@
+.policy-container {
+    display: flex;
+    gap: var(--gap);
+    position: relative;
+    padding-top: 10px;
+}
+
+.policy-menu-toggle {
+    display: none;
+    /* Ocultar en escritorio */
+    background: var(--surface-1);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: var(--text);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+}
+
+.policy-container {
+    display: flex;
+    /* Esto debería colocar el menú y el contenido uno al lado del otro */
+    /* ... otros estilos ... */
+}
+
+#policyMenu a {
+    display: block;
+    padding: 12px 18px;
+    color: var(--text);
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+}
+
+#policyMenu {
+    width: 280px;
+    flex-shrink: 0;
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 14px 0;
+    box-shadow: var(--shadow);
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+}
+
+#policyMenu a:hover {
+    background: rgba(197, 20, 20, 0.02);
+}
+
+#policyMenu a.active {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+}
+
+#policyContent {
+    flex-grow: 1;
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+#policyContent h5 {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.small-muted p {
+    color: var(--muted);
+    font-size: .85rem;
+}
+
+/* Responsive adjustment for Mobile (Policy Menu) */
+@media (max-width: 900px) {
+    .policy-container {
+        flex-direction: column;
+    }
+
+    .policy-menu-toggle {
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+
+    #policyMenu {
+        /* ESTO ES LO CRUCIAL: OCULTAR en Móvil */
+        max-height: 0;
+        padding: 0 0;
+        /* Re-establecer posición absoluta para la animación de despliegue */
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        z-index: 10;
+    }
+
+    #policyMenu.open {
+        max-height: 400px;
+        padding: 14px 0;
+    }
+
+    #policyContent {
+        margin-top: 50px;
+    }
+}
+
+/* ---------- DESIGN TOKENS ---------- */
+:root {
+    --bg: #070707;
+    --panel: #0f0f0f;
+    --card: #131313;
+    --muted: #bdbdbd;
+    --accent: #b30000;
+    --radius: 12px;
+    --gap: 16px;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    --transition: .22s cubic-bezier(.2, .9, .2, 1);
+    --surface-1: #0f0f0f;
+    --surface-2: #151515;
+    --text: #eee;
+    --social-facebook: #1877f2;
+
+    --social-facebook-hover: #156be6;
+    --social-instagram: #E1306C;
+    /* Instagram es a menudo un gradiente, pero usamos este sólido */
+    --social-instagram-hover: #d42a63;
+    --social-twitter: #1da1f2;
+    --social-twitter-hover: #1a92da;
+    --social-youtube: #ff0000;
+    --social-youtube-hover: #e60000;
+}
+
+/* Light mode tokens (will be toggled) */
+:root.light {
+    --bg: #f7f7f8;
+    --panel: #ffffff;
+    --card: #ffffff;
+    --muted: #666;
+    --accent: #c20b0b;
+    --surface-1: #ffffff;
+    --surface-2: #fafafa;
+    --text: #111;
+    --shadow: 0 6px 20px rgba(13, 13, 13, 0.06);
+}
+
+* {
+    box-sizing: border-box;
+    font-family: Inter, system-ui, Arial, "Segoe UI", sans-serif
+}
+
+html,
+body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    -webkit-font-smoothing: antialiased
+}
+
+a {
+    cursor: pointer
+}
+
+/* ---------- HEADER ---------- */
+header {
+    background: linear-gradient(90deg, var(--accent), #8c0000);
+    padding: 12px 0
+}
+
+.brand {
+    font-weight: 800
+}
+
+.small-muted {
+    color: var(--muted);
+    font-size: .85rem
+}
+
+/* ---------- NAV ---------- */
+nav.bg-panel {
+    background: var(--panel);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03)
+}
+
+.nav-link {
+    color: var(--text);
+    opacity: .95;
+    padding: 8px 10px;
+    border-radius: 8px
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.02)
+}
+
+.badge-cart {
+    background: var(--accent);
+    color: #fff;
+    border-radius: 999px;
+    padding: 2px 7px;
+    font-size: .75rem
+}
+
+/* ---------- LAYOUT ---------- */
+main.container {
+    max-width: 1200px
+}
+
+.page-hidden {
+    display: none
+}
+
+footer {
+    background: transparent;
+    padding: 18px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.03)
+}
+
+/* ---------- CARDS & MEDIA ---------- */
+.product-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 14px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform var(--transition), box-shadow var(--transition);
+    box-shadow: var(--shadow)
+}
+
+.product-card:focus {
+    outline: 3px solid rgba(179, 0, 0, 0.12);
+    outline-offset: 4px
+}
+
+.product-card:hover {
+    transform: translateY(-6px)
+}
+
+.product-media {
+    height: 120px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #0f0f0f, #090909);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted)
+}
+
+.product-title {
+    font-weight: 600
+}
+
+.price {
+    font-weight: 700;
+    color: var(--text)
+}
+
+/* ---------- BUTTONS ---------- */
+.btn-main {
+    background: var(--accent);
+    border: 0;
+    color: #fff;
+    border-radius: 10px;
+    padding: 8px 12px;
+    transition: transform .12s ease
+}
+
+.btn-main:active {
+    transform: scale(.98)
+}
+
+.btn-ghost {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 6px 10px
+}
+
+/* ---------- SKELETON ---------- */
+.skeleton {
+    background: linear-gradient(90deg, #0b0b0b 0%, #141414 50%, #0b0b0b 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s linear infinite;
+    border-radius: 8px
+}
+
+@keyframes shimmer {
+    to {
+        background-position: -200% 0
+    }
+}
+
+/* ---------- TOAST ---------- */
+.toast-app {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1200
+}
+
+.toast-card {
+    background: var(--surface-1);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12)
+}
+
+.toast-card.success {
+    border-left: 4px solid #2ecc71
+}
+
+.toast-card.warn {
+    border-left: 4px solid #f39c12
+}
+
+/* ---------- FLY TO CART ---------- */
+.fly-img {
+    position: fixed;
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    z-index: 9999;
+    pointer-events: none;
+    transition: transform .7s cubic-bezier(.2, .9, .2, 1), opacity .6s;
+    background: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:768px) {
+    .product-media {
+        height: 100px
+    }
+
+    .product-card {
+        padding: 10px
+    }
+
+    header .input-group {
+        min-width: unset
+    }
+}
+
+/* ---------- MICROINTERACTIONS ---------- */
+.fade-in {
+    animation: fadeIn .28s ease both
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px)
+    }
+
+    to {
+        opacity: 1;
+        transform: none
+    }
+}
+
+/* Breadcrumb link color */
+.breadcrumb a {
+    color: var(--text);
+    text-decoration: none
+}
+
+/* ---------- SOCIAL BUTTONS COLORS (usando variables) ---------- */
+.btn-facebook {
+    background: var(--social-facebook);
+    border: 1px solid var(--social-facebook);
+    color: #fff !important;
+    /* Texto blanco en todos */
+}
+
+.btn-facebook:hover {
+    background: var(--social-facebook-hover);
+}
+
+.btn-instagram {
+    background: var(--social-instagram);
+    border: 1px solid var(--social-instagram);
+    color: #fff !important;
+}
+
+.btn-instagram:hover {
+    background: var(--social-instagram-hover);
+}
+
+.btn-twitter {
+    background: var(--social-twitter);
+    border: 1px solid var(--social-twitter);
+    color: #fff !important;
+}
+
+.btn-twitter:hover {
+    background: var(--social-twitter-hover);
+}
+
+.btn-youtube {
+    background: var(--social-youtube);
+    border: 1px solid var(--social-youtube);
+    color: #fff !important;
+}
+
+.btn-youtube:hover {
+    background: var(--social-youtube-hover);
+}
+
+/* Estilos para Favoritos */
+.favorite-card {
+    position: relative;
+}
+
+.favorite-remove {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+/* Estilos para Estados de Pedidos */
+.order-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status-pending {
+    background: #f39c12;
+    color: #fff;
+}
+
+.status-processing {
+    background: #3498db;
+    color: #fff;
+}
+
+.status-completed {
+    background: #2ecc71;
+    color: #fff;
+}
+
+.status-cancelled {
+    background: #e74c3c;
+    color: #fff;
+}
+
+/* Estilos para Login/Registro */
+.login-container {
+    max-width: 420px;
+    margin: 60px auto;
+}
+
+/* Estilos para Panel Admin */
+.admin-sidebar {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.admin-sidebar a {
+    display: block;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    color: var(--text);
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.admin-sidebar a:hover,
+.admin-sidebar a.active {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* Estilos para tabla responsive */
+.table {
+    color: var(--text);
+}
+
+.table thead {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.table tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
