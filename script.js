@@ -460,33 +460,78 @@ function checkLoginAndOpen() {
         openSection('login');
     } else {
         if (currentUser.isAdmin) {
-            openSection('admin');
+         openSection('login');   
         } else {
             openSection('account');
         }
     }
 }
 
+// ============ FUNCIÓN MEJORADA DE LOGIN TRADICIONAL ============
+
 function doLoginPage() {
-    const email = document.getElementById('loginEmailPage').value;
+    const email = document.getElementById('loginEmailPage').value.trim();
     const pass = document.getElementById('loginPassPage').value;
-    if (!email || !pass) {
-        toast('Complete todos los campos', 'warn');
+    const remember = document.getElementById('rememberMe').checked;
+    
+    // Validaciones (mantenerlas)
+    if (!email) {
+        toast('Por favor ingresa tu correo electrónico', 'warn');
+        document.getElementById('loginEmailPage').focus();
         return;
     }
+    
+    if (!isValidEmail(email)) {
+        toast('Por favor ingresa un correo válido', 'warn');
+        document.getElementById('loginEmailPage').focus();
+        return;
+    }
+    
+    if (!pass) {
+        toast('Por favor ingresa tu contraseña', 'warn');
+        document.getElementById('loginPassPage').focus();
+        return;
+    }
+    
+    // Buscar usuario
     const user = users.find(u => u.email === email && u.password === pass);
+    
     if (!user) {
-        toast('Credenciales incorrectas', 'warn');
+        toast('Correo o contraseña incorrectos', 'warn');
         return;
     }
-    currentUser = user;
-    saveState();
-    toast('Sesión iniciada', 'success');
+    
     if (user.isAdmin) {
-        openSection('admin');
-    } else {
-        openSection('account');
+        toast('Redirigiendo a Panel de Administración...', 'success');
+        
+        document.getElementById('loginEmailPage').value = '';
+        document.getElementById('loginPassPage').value = '';
+
+        window.location.href = 'admin/admin.html';
     }
+
+    user.lastLogin = new Date().toISOString();
+    currentUser = user; // Guardar el usuario en la variable global SOLO si no es admin
+    
+    // Guardar preferencia de recordar
+    if (remember) {
+        localStorage.setItem('rememberUser', JSON.stringify({
+            email: email,
+            timestamp: Date.now()
+        }));
+    } else {
+        localStorage.removeItem('rememberUser');
+    }
+    
+    saveState(); // Guardar el estado (incluyendo el currentUser) SOLO si no es admin
+    toast('¡Bienvenido ' + user.name + '!', 'success');
+    
+    // Redirigir al panel de usuario
+    openSection('account');
+    
+    // Limpiar campos
+    document.getElementById('loginEmailPage').value = '';
+    document.getElementById('loginPassPage').value = '';
 }
 
 function doRegister() {
@@ -1027,7 +1072,7 @@ function doLoginPage() {
     
     // Redirigir según tipo de usuario
     if (user.isAdmin) {
-        openSection('admin');
+        window.location.href = 'admin/admin.html';
     } else {
         openSection('account');
     }

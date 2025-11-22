@@ -1,0 +1,2182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Repuestos MJC</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Inter, system-ui, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0a0a0a;
+            --panel: #111;
+            --card: #1a1a1a;
+            --accent: #b30000;
+            --text: #eee;
+            --muted: #999;
+            --border: rgba(255,255,255,0.08);
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --info: #3498db;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* LOGIN */
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0000 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-screen::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(179,0,0,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -250px;
+            right: -250px;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .login-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 50px 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+            border: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-logo {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--accent) 0%, #9a0000 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: white;
+            box-shadow: 0 10px 30px rgba(179,0,0,0.4);
+        }
+
+        .login-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            color: var(--muted);
+            margin-bottom: 35px;
+            font-size: 0.95rem;
+        }
+
+        /* DASHBOARD */
+        .dashboard-wrapper {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .dashboard-wrapper.active {
+            display: flex;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 280px;
+            background: var(--panel);
+            border-right: 1px solid var(--border);
+            padding: 25px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 0 25px 25px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 25px;
+        }
+
+        .sidebar-brand {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent) 0%, #ff4444 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0 15px;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 18px;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.25s;
+            font-weight: 500;
+        }
+
+        .sidebar-menu a:hover {
+            background: rgba(179, 0, 0, 0.15);
+            transform: translateX(5px);
+        }
+
+        .sidebar-menu a.active {
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(179,0,0,0.4);
+        }
+
+        .sidebar-menu a i {
+            font-size: 1.2rem;
+            width: 24px;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 35px;
+            width: calc(100% - 280px);
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 20px;
+            background: var(--card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        /* CARDS */
+        .stat-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(179,0,0,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(30%, -30%);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-color: rgba(179,0,0,0.3);
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 12px 0;
+            position: relative;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+        }
+
+        .content-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid var(--border);
+            margin-bottom: 25px;
+        }
+
+        /* TABLES */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table thead {
+            background: rgba(179, 0, 0, 0.08);
+        }
+
+        .data-table th {
+            padding: 16px 14px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 16px 14px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        .data-table tbody tr {
+            transition: background 0.2s;
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(255,255,255,0.03);
+        }
+
+        /* BUTTONS */
+        .btn-primary {
+            background: var(--accent);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary:hover {
+            background: #9a0000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(179,0,0,0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 10px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.25s;
+            font-size: 0.9rem;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--accent);
+        }
+
+        .btn-success {
+            background: var(--success);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-success:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        /* FORMS */
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 0.95rem;
+            transition: all 0.25s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(179,0,0,0.1);
+        }
+
+        /* BADGES */
+        .badge {
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-success { background: var(--success); color: white; }
+        .badge-warning { background: var(--warning); color: white; }
+        .badge-danger { background: var(--danger); color: white; }
+        .badge-info { background: var(--info); color: white; }
+
+        /* SECTIONS */
+        .admin-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .admin-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 35px;
+            max-width: 650px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.8rem;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .close-modal:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* TOAST */
+        .toast-container {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 2000;
+        }
+
+        .toast {
+            background: var(--card);
+            border-left: 4px solid var(--success);
+            padding: 18px 22px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            animation: slideIn 0.4s ease;
+            min-width: 300px;
+            border: 1px solid var(--border);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .mobile-toggle {
+                display: block !important;
+            }
+
+            .stat-card {
+                margin-bottom: 15px;
+            }
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: var(--accent);
+            border: none;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        /* CHART PLACEHOLDER */
+        .chart-container {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid var(--border);
+            margin-top: 25px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+        }
+
+        /* QUICK ACTIONS */
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .quick-action-btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .quick-action-btn:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .quick-action-btn i {
+            font-size: 1.8rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .quick-action-btn h6 {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .quick-action-btn p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PANTALLA DE LOGIN -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-card">
+            <div class="login-logo">MJC</div>
+            <h2 class="login-title">Panel Administrativo</h2>
+            <p class="login-subtitle">Repuestos MJC - Sistema de Gestión</p>
+
+            <div class="form-group">
+                <label class="form-label">Usuario</label>
+                <input type="text" id="adminUser" class="form-control" placeholder="Ingrese su usuario" autofocus>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Contraseña</label>
+                <input type="password" id="adminPass" class="form-control" placeholder="••••••••">
+            </div>
+
+            <button class="btn-primary w-100" onclick="doAdminLogin()">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión
+            </button>
+
+            <div style="text-align: center; margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--border);">
+                <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 8px;">Credenciales de demostración:</p>
+                <p style="color: var(--text); font-size: 0.9rem;">
+                    <strong>Usuario:</strong> admin | <strong>Contraseña:</strong> admin123
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD PRINCIPAL -->
+    <div id="adminDashboard" class="dashboard-wrapper">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">MJC Admin</div>
+                <small style="color: var(--muted); font-weight: 500;">Sistema de Gestión v2.0</small>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#" class="active" onclick="showSection('dashboard', this)">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('products', this)">
+                        <i class="bi bi-box-seam"></i>
+                        <span>Productos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('categories', this)">
+                        <i class="bi bi-tags"></i>
+                        <span>Categorías</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('orders', this)">
+                        <i class="bi bi-cart-check"></i>
+                        <span>Pedidos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('customers', this)">
+                        <i class="bi bi-people"></i>
+                        <span>Clientes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('reports', this)">
+                        <i class="bi bi-bar-chart"></i>
+                        <span>Reportes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('settings', this)">
+                        <i class="bi bi-gear"></i>
+                        <span>Configuración</span>
+                    </a>
+                </li>
+                <li style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);">
+                    <a href="#" onclick="doAdminLogout()" style="color: var(--danger);">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="main-content">
+            <button class="mobile-toggle" onclick="toggleSidebar()">
+                <i class="bi bi-list"></i> Menú
+            </button>
+
+            <!-- SECCIÓN DASHBOARD -->
+            <section id="dashboard" class="admin-section active">
+                <div class="top-bar">
+                    <div>
+                        <h1 class="page-title">Dashboard</h1>
+                        <p style="color: var(--muted); margin: 5px 0 0;">Resumen general del sistema</p>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-avatar">A</div>
+                        <div>
+                            <div style="font-weight: 600;">Admin</div>
+                            <div style="font-size: 0.85rem; color: var(--muted);">Administrador</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACCIONES RÁPIDAS -->
+                <div class="quick-actions">
+                    <div class="quick-action-btn" onclick="showSection('products', document.querySelector('.sidebar-menu a[onclick*=products]'))">
+                        <i class="bi bi-plus-circle"></i>
+                        <h6>Nuevo Producto</h6>
+                        <p>Agregar producto al inventario</p>
+                    </div>
+                    <div class="quick-action-btn" onclick="showSection('orders', document.querySelector('.sidebar-menu a[onclick*=orders]'))">
+                        <i class="bi bi-receipt"></i>
+                        <h6>Ver Pedidos</h6>
+                        <p>Gestionar órdenes pendientes</p>
+                    </div>
+                    <div class="quick-action-btn" onclick="showSection('reports', document.querySelector('.sidebar-menu a[onclick*=reports]'))">
+                        <i class="bi bi-download"></i>
+                        <h6>Generar Reporte</h6>
+                        <p>Exportar datos del sistema</p>
+                    </div>
+                </div>
+
+                <!-- ESTADÍSTICAS -->
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">Ventas del Mes</div>
+                                    <div class="stat-value" style="color: var(--success);">$18,543</div>
+                                    <small style="color: var(--success); font-weight: 600;">
+                                        <i class="bi bi-arrow-up"></i> +15% vs mes anterior
+                                    </small>
+                                </div>
+                                <div class="stat-icon" style="background: rgba(46, 204, 113, 0.15); color: var(--success);">
+                                    <i class="bi bi-currency-dollar"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">Pedidos Totales</div>
+                                    <div class="stat-value" style="color: var(--info);">247</div>
+                                    <small style="color: var(--success); font-weight: 600;">
+                                        <i class="bi bi-arrow-up"></i> +12 nuevos hoy
+                                    </small>
+                                </div>
+                                <div class="stat-icon" style="background: rgba(52, 152, 219, 0.15); color: var(--info);">
+                                    <i class="bi bi-cart3"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">Productos</div>
+                                    <div class="stat-value" style="color: var(--warning);">356</div>
+                                    <small style="color: var(--danger); font-weight: 600;">
+                                        <i class="bi bi-exclamation-circle"></i> 15 con stock bajo
+                                    </small>
+                                </div>
+                                <div class="stat-icon" style="background: rgba(243, 156, 18, 0.15); color: var(--warning);">
+                                    <i class="bi bi-box-seam"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">Clientes</div>
+                                    <div class="stat-value" style="color: #9b59b6;">1,534</div>
+                                    <small style="color: var(--success); font-weight: 600;">
+                                        <i class="bi bi-arrow-up"></i> +32 este mes
+                                    </small>
+                                </div>
+                                <div class="stat-icon" style="background: rgba(155, 89, 182, 0.15); color: #9b59b6;">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PEDIDOS RECIENTES Y PRODUCTOS MÁS VENDIDOS -->
+                <div class="row g-4">
+                    <div class="col-md-8">
+                        <div class="content-card">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 style="margin: 0; font-weight: 700;">Pedidos Recientes</h5>
+                                <button class="btn-secondary" onclick="showSection('orders', document.querySelector('.sidebar-menu a[onclick*=orders]'))">
+                                    Ver todos <i class="bi bi-arrow-right ms-1"></i>
+                                </button>
+                            </div>
+                            <table class="data-table mt-3">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Cliente</th>
+                                        <th>Fecha</th>
+                                        <th>Total</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>#ORD12345</strong></td>
+                                        <td>Carlos Méndez</td>
+                                        <td>21/11/2025 10:30</td>
+                                        <td><strong>$159.90</strong></td>
+                                        <td><span class="badge badge-success">Completado</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#ORD12346</strong></td>
+                                        <td>María González</td>
+                                        <td>21/11/2025 09:15</td>
+                                        <td><strong>$89.50</strong></td>
+                                        <td><span class="badge badge-warning">Pendiente</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#ORD12347</strong></td>
+                                        <td>Roberto Jiménez</td>
+                                        <td>20/11/2025 16:45</td>
+                                        <td><strong>$234.00</strong></td>
+                                        <td><span class="badge badge-info">En Proceso</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#ORD12348</strong></td>
+                                        <td>Ana Rodríguez</td>
+                                        <td>20/11/2025 14:20</td>
+                                        <td><strong>$125.00</strong></td>
+                                        <td><span class="badge badge-success">Completado</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="content-card">
+                            <h5 style="margin-bottom: 20px; font-weight: 700;">Top Productos</h5>
+                            <div class="mt-3">
+                                <div class="d-flex justify-content-between align-items-center mb-3 pb-3" style="border-bottom: 1px solid var(--border);">
+                                    <div>
+                                        <strong>Filtro Deportivo K&N</strong>
+                                        <div style="color: var(--muted); font-size: 0.85rem; margin-top: 4px;">
+                                            <i class="bi bi-cart3"></i> 145 ventas
+                                        </div>
+                                    </div>
+                                    <div style="font-weight: 700; color: var(--success);">$39.90</div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-3 pb-3" style="border-bottom: 1px solid var(--border);">
+                                    <div>
+                                        <strong>Aceite Mobil 1 20W50</strong>
+                                        <div style="color: var(--muted); font-size: 0.85rem; margin-top: 4px;">
+                                            <i class="bi bi-cart3"></i> 112 ventas
+                                        </div>
+                                    </div>
+                                    <div style="font-weight: 700; color: var(--success);">$24.50</div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-3 pb-3" style="border-bottom: 1px solid var(--border);">
+                                    <div>
+                                        <strong>Batería Bosch 12V</strong>
+                                        <div style="color: var(--muted); font-size: 0.85rem; margin-top: 4px;">
+                                            <i class="bi bi-cart3"></i> 89 ventas
+                                        </div>
+                                    </div>
+                                    <div style="font-weight: 700; color: var(--success);">$119.00</div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>Pastillas Freno Brembo</strong>
+                                        <div style="color: var(--muted); font-size: 0.85rem; margin-top: 4px;">
+                                            <i class="bi bi-cart3"></i> 76 ventas
+                                        </div>
+                                    </div>
+                                    <div style="font-weight: 700; color: var(--success);">$65.00</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GRÁFICO PLACEHOLDER -->
+                <div class="chart-container">
+                    <div class="text-center">
+                        <i class="bi bi-bar-chart" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <div style="font-size: 1.1rem; font-weight: 600;">Gráfico de Ventas</div>
+                        <div style="font-size: 0.9rem; margin-top: 5px;">Integración con biblioteca de gráficos disponible</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN PRODUCTOS -->
+            <section id="products" class="admin-section">
+                <div class="top-bar">
+                    <h1 class="page-title">Gestión de Productos</h1>
+                    <button class="btn-primary" onclick="openProductModal()">
+                        <i class="bi bi-plus-lg me-2"></i>Nuevo Producto
+                    </button>
+                </div>
+
+                <div class="content-card">
+                    <div class="d-flex gap-3 mb-4">
+                        <input type="text" id="searchProducts" class="form-control" placeholder="Buscar productos por nombre o SKU..." style="max-width: 350px;">
+                        <select class="form-control" style="max-width: 220px;">
+                            <option>Todas las categorías</option>
+                            <option>Motor</option>
+                            <option>Lubricantes</option>
+                            <option>Eléctrico</option>
+                            <option>Frenos</option>
+                            <option>Suspensión</option>
+                        </select>
+                        <button class="btn-secondary">
+                            <i class="bi bi-funnel"></i> Filtros
+                        </button>
+                    </div>
+
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>SKU</th>
+                                <th>Nombre</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>FD-001</strong></td>
+                                <td>Filtro Deportivo K&N</td>
+                                <td>Motor</td>
+                                <td><strong>$39.90</strong></td>
+                                <td>45 unidades</td>
+                                <td><span class="badge badge-success">Activo</span></td>
+                                <td>
+                                    <button class="btn-secondary me-1" onclick="editProduct(1)">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn-danger" onclick="deleteProduct(1)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>AC-020</strong></td>
+                                <td>Aceite Mobil 1 20W50</td>
+                                <td>Lubricantes</td>
+                                <td><strong>$24.50</strong></td>
+                                <td>120 unidades</td>
+                                <td><span class="badge badge-success">Activo</span></td>
+                                <td>
+                                    <button class="btn-secondary me-1" onclick="editProduct(2)">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn-danger" onclick="deleteProduct(2)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>BT-12</strong></td>
+                                <td>Batería Bosch 12V</td>
+                                <td>Eléctrico</td>
+                                <td><strong>$119.00</strong></td>
+                                <td>8 unidades</td>
+                                <td><span class="badge badge-warning">Stock Bajo</span></td>
+                                <td>
+                                    <button class="btn-secondary me-1" onclick="editProduct(3)">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn-danger" onclick="deleteProduct(3)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>FR-205</strong></td>
+                                <td>Pastillas Freno Brembo</td>
+                                <td>Frenos</td>
+                                <td><strong>$65.00</strong></td>
+                                <td>32 unidades</td>
+                                <td><span class="badge badge-success">Activo</span></td>
+                                <td>
+                                    <button class="btn-secondary me-1" onclick="editProduct(4)">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn-danger" onclick="deleteProduct(4)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div style="color: var(--muted);">Mostrando 4 de 356 productos</div>
+                        <div class="d-flex gap-2">
+                            <button class="btn-secondary">Anterior</button>
+                            <button class="btn-secondary">1</button>
+                            <button class="btn-primary">2</button>
+                            <button class="btn-secondary">3</button>
+                            <button class="btn-secondary">Siguiente</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN CATEGORÍAS -->
+            <section id="categories" class="admin-section">
+                <div class="top-bar">
+                    <h1 class="page-title">Gestión de Categorías</h1>
+                    <button class="btn-primary" onclick="openCategoryModal()">
+                        <i class="bi bi-plus-lg me-2"></i>Nueva Categoría
+                    </button>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 style="margin: 0; font-weight: 700;">Motor</h5>
+                                <i class="bi bi-gear-fill" style="font-size: 2rem; color: var(--accent); opacity: 0.2;"></i>
+                            </div>
+                            <div style="color: var(--muted); margin: 12px 0;">
+                                <i class="bi bi-box-seam me-2"></i>68 productos
+                            </div>
+                            <div class="d-flex gap-2 mt-3">
+                                <button class="btn-secondary"><i class="bi bi-pencil"></i> Editar</button>
+                                <button class="btn-danger"><i class="bi bi-trash"></i> Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 style="margin: 0; font-weight: 700;">Lubricantes</h5>
+                                <i class="bi bi-droplet-fill" style="font-size: 2rem; color: var(--warning); opacity: 0.2;"></i>
+                            </div>
+                            <div style="color: var(--muted); margin: 12px 0;">
+                                <i class="bi bi-box-seam me-2"></i>45 productos
+                            </div>
+                            <div class="d-flex gap-2 mt-3">
+                                <button class="btn-secondary"><i class="bi bi-pencil"></i> Editar</button>
+                                <button class="btn-danger"><i class="bi bi-trash"></i> Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 style="margin: 0; font-weight: 700;">Eléctrico</h5>
+                                <i class="bi bi-lightning-charge-fill" style="font-size: 2rem; color: var(--info); opacity: 0.2;"></i>
+                            </div>
+                            <div style="color: var(--muted); margin: 12px 0;">
+                                <i class="bi bi-box-seam me-2"></i>34 productos
+                            </div>
+                            <div class="d-flex gap-2 mt-3">
+                                <button class="btn-secondary"><i class="bi bi-pencil"></i> Editar</button>
+                                <button class="btn-danger"><i class="bi bi-trash"></i> Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 style="margin: 0; font-weight: 700;">Frenos</h5>
+                                <i class="bi bi-disc-fill" style="font-size: 2rem; color: var(--danger); opacity: 0.2;"></i>
+                            </div>
+                            <div style="color: var(--muted); margin: 12px 0;">
+                                <i class="bi bi-box-seam me-2"></i>52 productos
+                            </div>
+                            <div class="d-flex gap-2 mt-3">
+                                <button class="btn-secondary"><i class="bi bi-pencil"></i> Editar</button>
+                                <button class="btn-danger"><i class="bi bi-trash"></i> Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 style="margin: 0; font-weight: 700;">Suspensión</h5>
+                                <i class="bi bi-arrow-down-up" style="font-size: 2rem; color: var(--success); opacity: 0.2;"></i>
+                            </div>
+                            <div style="color: var(--muted); margin: 12px 0;">
+                                <i class="bi bi-box-seam me-2"></i>41 productos
+                            </div>
+                            <div class="d-flex gap-2 mt-3">
+                                <button class="btn-secondary"><i class="bi bi-pencil"></i> Editar</button>
+                                <button class="btn-danger"><i class="bi bi-trash"></i> Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 style="margin: 0; font-weight: 700;">Accesorios</h5>
+                                <i class="bi bi-tools" style="font-size: 2rem; color: #9b59b6; opacity: 0.2;"></i>
+                            </div>
+                            <div style="color: var(--muted); margin: 12px 0;">
+                                <i class="bi bi-box-seam me-2"></i>116 productos
+                            </div>
+                            <div class="d-flex gap-2 mt-3">
+                                <button class="btn-secondary"><i class="bi bi-pencil"></i> Editar</button>
+                                <button class="btn-danger"><i class="bi bi-trash"></i> Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN PEDIDOS -->
+            <section id="orders" class="admin-section">
+                <div class="top-bar">
+                    <h1 class="page-title">Gestión de Pedidos</h1>
+                    <div class="d-flex gap-2">
+                        <select class="form-control" style="max-width: 200px;">
+                            <option>Todos los estados</option>
+                            <option>Pendiente</option>
+                            <option>En Proceso</option>
+                            <option>Completado</option>
+                            <option>Cancelado</option>
+                        </select>
+                        <button class="btn-secondary">
+                            <i class="bi bi-download"></i> Exportar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID Pedido</th>
+                                <th>Cliente</th>
+                                <th>Fecha y Hora</th>
+                                <th>Total</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>#ORD12345</strong></td>
+                                <td>Carlos Méndez</td>
+                                <td>21/11/2025 10:30</td>
+                                <td><strong>$159.90</strong></td>
+                                <td><span class="badge badge-success">Completado</span></td>
+                                <td>
+                                    <button class="btn-secondary me-1" onclick="viewOrder(12345)">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    <button class="btn-secondary">
+                                        <i class="bi bi-printer"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>#ORD12346</strong></td>
+                                <td>María González</td>
+                                <td>21/11/2025 09:15</td>
+                                <td><strong>$89.50</strong></td>
+                                <td><span class="badge badge-warning">Pendiente</span></td>
+                                <td>
+                                    <button class="btn-secondary me-1" onclick="viewOrder(12346)">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    <button class="btn-success" onclick="updateOrderStatus(12346, 'completed')">
+                                        Completar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>#ORD12347</strong></td>
+                                <td>Roberto Jiménez</td>
+                                <td>20/11/2025 16:45</td>
+                                <td><strong>$234.00</strong></td>
+                                <td><span class="badge badge-info">En Proceso</span></td>
+                                <td>
+                                    <button class="btn-secondary me-1" onclick="viewOrder(12347)">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    <button class="btn-success" onclick="updateOrderStatus(12347, 'completed')">
+                                        Completar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>#ORD12348</strong></td>
+                                <td>Ana Rodríguez</td>
+                                <td>20/11/2025 14:20</td>
+                                <td><strong>$125.00</strong></td>
+                                <td><span class="badge badge-success">Completado</span></td>
+                                <td>
+                                    <button class="btn-secondary me-1" onclick="viewOrder(12348)">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    <button class="btn-secondary">
+                                        <i class="bi bi-printer"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECCIÓN CLIENTES -->
+            <section id="customers" class="admin-section">
+                <div class="top-bar">
+                    <h1 class="page-title">Gestión de Clientes</h1>
+                    <div class="d-flex gap-2">
+                        <button class="btn-secondary">
+                            <i class="bi bi-download"></i> Exportar
+                        </button>
+                        <button class="btn-primary" onclick="openCustomerModal()">
+                            <i class="bi bi-person-plus"></i> Nuevo Cliente
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <input type="text" id="searchCustomers" class="form-control mb-4" placeholder="Buscar clientes por nombre, email o teléfono..." style="max-width: 400px;">
+
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Pedidos</th>
+                                <th>Total Gastado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>#C001</strong></td>
+                                <td>Carlos Méndez</td>
+                                <td>carlos.m@email.com</td>
+                                <td>+506 8888-9999</td>
+                                <td>18</td>
+                                <td><strong>$1,456.80</strong></td>
+                                <td>
+                                    <button class="btn-secondary me-1" onclick="viewCustomer(1)">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    <button class="btn-secondary">
+                                        <i class="bi bi-envelope"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>#C002</strong></td>
+                                <td>María González</td>
+                                <td>maria.g@email.com</td>
+                                <td>+506 7777-6666</td>
+                                <td>12</td>
+                                <td><strong>$678.50</strong></td>
+                                <td>
+                                    <button class="btn-secondary me-1" onclick="viewCustomer(2)">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    <button class="btn-secondary">
+                                        <i class="bi bi-envelope"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>#C003</strong></td>
+                                <td>Roberto Jiménez</td>
+                                <td>roberto.j@email.com</td>
+                                <td>+506 6666-5555</td>
+                                <td>27</td>
+                                <td><strong>$3,245.90</strong></td>
+                                <td>
+                                    <button class="btn-secondary me-1" onclick="viewCustomer(3)">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    <button class="btn-secondary">
+                                        <i class="bi bi-envelope"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>#C004</strong></td>
+                                <td>Ana Rodríguez</td>
+                                <td>ana.r@email.com</td>
+                                <td>+506 5555-4444</td>
+                                <td>9</td>
+                                <td><strong>$543.20</strong></td>
+                                <td>
+                                    <button class="btn-secondary me-1" onclick="viewCustomer(4)">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    <button class="btn-secondary">
+                                        <i class="bi bi-envelope"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECCIÓN REPORTES -->
+            <section id="reports" class="admin-section">
+                <div class="top-bar">
+                    <h1 class="page-title">Reportes y Analíticas</h1>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <div class="content-card">
+                            <h5 style="margin-bottom: 20px; font-weight: 700;">
+                                <i class="bi bi-calendar-range me-2"></i>Reportes por Período
+                            </h5>
+                            <div class="form-group">
+                                <label class="form-label">Fecha Inicio</label>
+                                <input type="date" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Fecha Fin</label>
+                                <input type="date" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Tipo de Reporte</label>
+                                <select class="form-control">
+                                    <option>Ventas</option>
+                                    <option>Productos más vendidos</option>
+                                    <option>Clientes</option>
+                                    <option>Inventario</option>
+                                    <option>Reporte completo</option>
+                                </select>
+                            </div>
+                            <button class="btn-primary w-100">
+                                <i class="bi bi-download me-2"></i>Generar Reporte
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="content-card">
+                            <h5 style="margin-bottom: 20px; font-weight: 700;">
+                                <i class="bi bi-file-earmark-text me-2"></i>Reportes Rápidos
+                            </h5>
+                            <div class="d-grid gap-2">
+                                <button class="btn-secondary text-start" onclick="exportReport('daily')">
+                                    <i class="bi bi-file-earmark-pdf me-2"></i>Reporte Diario (Hoy)
+                                </button>
+                                <button class="btn-secondary text-start" onclick="exportReport('weekly')">
+                                    <i class="bi bi-file-earmark-pdf me-2"></i>Reporte Semanal
+                                </button>
+                                <button class="btn-secondary text-start" onclick="exportReport('monthly')">
+                                    <i class="bi bi-file-earmark-pdf me-2"></i>Reporte Mensual
+                                </button>
+                                <button class="btn-secondary text-start" onclick="exportReport('inventory')">
+                                    <i class="bi bi-file-earmark-excel me-2"></i>Estado de Inventario
+                                </button>
+                                <button class="btn-secondary text-start" onclick="exportReport('customers')">
+                                    <i class="bi bi-file-earmark-excel me-2"></i>Base de Datos de Clientes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <h6 style="color: var(--muted); margin-bottom: 15px;">VENTAS ESTE MES</h6>
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--success); margin-bottom: 10px;">
+                                $18,543
+                            </div>
+                            <div style="font-size: 0.9rem; color: var(--muted);">
+                                247 transacciones | Promedio: $75.07
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <h6 style="color: var(--muted); margin-bottom: 15px;">PRODUCTOS VENDIDOS</h6>
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--info); margin-bottom: 10px;">
+                                1,234
+                            </div>
+                            <div style="font-size: 0.9rem; color: var(--muted);">
+                                45 productos diferentes
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <h6 style="color: var(--muted); margin-bottom: 15px;">TICKET PROMEDIO</h6>
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--warning); margin-bottom: 10px;">
+                                $75.07
+                            </div>
+                            <div style="font-size: 0.9rem; color: var(--muted);">
+                                <i class="bi bi-arrow-up text-success"></i> +8% vs mes anterior
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN CONFIGURACIÓN -->
+            <section id="settings" class="admin-section">
+                <div class="top-bar">
+                    <h1 class="page-title">Configuración del Sistema</h1>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="content-card">
+                            <h5 class="mb-4">
+                                <i class="bi bi-shop me-2"></i>Información de la Tienda
+                            </h5>
+
+                            <div class="form-group">
+                                <label class="form-label">Nombre de la Tienda</label>
+                                <input type="text" class="form-control" value="Repuestos MJC">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Email de Contacto</label>
+                                <input type="email" class="form-control" value="mjcrepu29@gmail.com">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" value="+506 2100-8581">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Dirección</label>
+                                <input type="text" class="form-control" value="Cañas Centro, Cañas, Guanacaste, Costa Rica">
+                            </div>
+
+                            <button class="btn-primary">
+                                <i class="bi bi-save me-2"></i>Guardar Cambios
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="content-card">
+                            <h5 class="mb-4">
+                                <i class="bi bi-currency-dollar me-2"></i>Configuración de Pagos
+                            </h5>
+
+                            <div class="form-group">
+                                <label class="form-label">Moneda</label>
+                                <select class="form-control">
+                                    <option>Colones (₡)</option>
+                                    <option selected>Dólares ($)</option>
+                                    <option>Euros (€)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">IVA (%)</label>
+                                <input type="number" class="form-control" value="13">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Envío Gratis a partir de</label>
+                                <input type="number" class="form-control" value="99" placeholder="Monto mínimo">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Métodos de Pago Activos</label>
+                                <div class="mt-2">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" checked id="paymentCard">
+                                        <label class="form-check-label" for="paymentCard">
+                                            Tarjetas de Crédito/Débito
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" checked id="paymentSinpe">
+                                        <label class="form-check-label" for="paymentSinpe">
+                                            SINPE Móvil
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" checked id="paymentTransfer">
+                                        <label class="form-check-label" for="paymentTransfer">
+                                            Transferencia Bancaria
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn-primary">
+                                <i class="bi bi-save me-2"></i>Guardar Cambios
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="content-card">
+                            <h5 class="mb-4">
+                                <i class="bi bi-truck me-2"></i>Configuración de Envíos
+                            </h5>
+
+                            <div class="form-group">
+                                <label class="form-label">Costo de Envío GAM</label>
+                                <input type="number" class="form-control" value="5.00">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Costo de Envío Fuera del GAM</label>
+                                <input type="number" class="form-control" value="10.00">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Tiempo de Entrega GAM</label>
+                                <input type="text" class="form-control" value="24-48 horas">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Tiempo de Entrega Nacional</label>
+                                <input type="text" class="form-control" value="48-72 horas">
+                            </div>
+
+                            <button class="btn-primary">
+                                <i class="bi bi-save me-2"></i>Guardar Cambios
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="content-card">
+                            <h5 class="mb-4">
+                                <i class="bi bi-shield-lock me-2"></i>Seguridad
+                            </h5>
+
+                            <div class="form-group">
+                                <label class="form-label">Cambiar Contraseña</label>
+                                <input type="password" class="form-control mb-2" placeholder="Contraseña actual">
+                                <input type="password" class="form-control mb-2" placeholder="Nueva contraseña">
+                                <input type="password" class="form-control" placeholder="Confirmar contraseña">
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="enable2FA">
+                                    <label class="form-check-label" for="enable2FA">
+                                        Habilitar autenticación de dos factores
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button class="btn-primary">
+                                <i class="bi bi-save me-2"></i>Actualizar Seguridad
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="content-card">
+                            <h5 class="mb-4">
+                                <i class="bi bi-bell me-2"></i>Notificaciones
+                            </h5>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" checked id="notifNewOrder">
+                                        <label class="form-check-label" for="notifNewOrder">
+                                            <strong>Notificar nuevos pedidos</strong>
+                                            <div style="font-size: 0.85rem; color: var(--muted); margin-top: 4px;">
+                                                Recibe una alerta cuando llegue un nuevo pedido
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" checked id="notifLowStock">
+                                        <label class="form-check-label" for="notifLowStock">
+                                            <strong>Notificar stock bajo</strong>
+                                            <div style="font-size: 0.85rem; color: var(--muted); margin-top: 4px;">
+                                                Alerta cuando productos tengan stock bajo
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="notifNewCustomer">
+                                        <label class="form-check-label" for="notifNewCustomer">
+                                            <strong>Notificar nuevos clientes</strong>
+                                            <div style="font-size: 0.85rem; color: var(--muted); margin-top: 4px;">
+                                                Alerta cuando se registre un nuevo cliente
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" checked id="notifReview">
+                                        <label class="form-check-label" for="notifReview">
+                                            <strong>Notificar nuevas reseñas</strong>
+                                            <div style="font-size: 0.85rem; color: var(--muted); margin-top: 4px;">
+                                                Recibe notificaciones de valoraciones
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="notifSupport">
+                                        <label class="form-check-label" for="notifSupport">
+                                            <strong>Notificar mensajes de soporte</strong>
+                                            <div style="font-size: 0.85rem; color: var(--muted); margin-top: 4px;">
+                                                Alerta cuando lleguen mensajes de clientes
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn-primary mt-3">
+                                <i class="bi bi-save me-2"></i>Guardar Preferencias
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- MODAL DE PRODUCTO -->
+    <div id="productModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Nuevo Producto</h3>
+                <button class="close-modal" onclick="closeModal('productModal')">&times;</button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">SKU</label>
+                <input type="text" class="form-control" placeholder="Ej: FD-001">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Nombre del Producto</label>
+                <input type="text" class="form-control" placeholder="Ej: Filtro Deportivo K&N">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Categoría</label>
+                <select class="form-control">
+                    <option>Seleccionar categoría</option>
+                    <option>Motor</option>
+                    <option>Lubricantes</option>
+                    <option>Eléctrico</option>
+                    <option>Frenos</option>
+                    <option>Suspensión</option>
+                    <option>Accesorios</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Precio</label>
+                        <input type="number" class="form-control" placeholder="0.00" step="0.01">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Stock</label>
+                        <input type="number" class="form-control" placeholder="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Descripción</label>
+                <textarea class="form-control" rows="3" placeholder="Descripción del producto"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Imagen del Producto</label>
+                <input type="file" class="form-control" accept="image/*">
+            </div>
+
+            <div class="d-flex gap-2 justify-content-end mt-4">
+                <button class="btn-secondary" onclick="closeModal('productModal')">Cancelar</button>
+                <button class="btn-primary" onclick="saveProduct()">
+                    <i class="bi bi-save me-2"></i>Guardar Producto
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CATEGORÍA -->
+    <div id="categoryModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Nueva Categoría</h3>
+                <button class="close-modal" onclick="closeModal('categoryModal')">&times;</button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Nombre de la Categoría</label>
+                <input type="text" class="form-control" placeholder="Ej: Suspensión">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Descripción</label>
+                <textarea class="form-control" rows="3" placeholder="Descripción de la categoría"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Icono (Bootstrap Icon)</label>
+                <input type="text" class="form-control" placeholder="Ej: bi-gear-fill">
+            </div>
+
+            <div class="d-flex gap-2 justify-content-end mt-4">
+                <button class="btn-secondary" onclick="closeModal('categoryModal')">Cancelar</button>
+                <button class="btn-primary" onclick="saveCategory()">
+                    <i class="bi bi-save me-2"></i>Guardar Categoría
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CLIENTE -->
+    <div id="customerModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Nuevo Cliente</h3>
+                <button class="close-modal" onclick="closeModal('customerModal')">&times;</button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Nombre Completo</label>
+                <input type="text" class="form-control" placeholder="Juan Pérez">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" placeholder="correo@ejemplo.com">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Teléfono</label>
+                <input type="tel" class="form-control" placeholder="+506 8888-9999">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Dirección</label>
+                <textarea class="form-control" rows="2" placeholder="Dirección completa"></textarea>
+            </div>
+
+            <div class="d-flex gap-2 justify-content-end mt-4">
+                <button class="btn-secondary" onclick="closeModal('customerModal')">Cancelar</button>
+                <button class="btn-primary" onclick="saveCustomer()">
+                    <i class="bi bi-save me-2"></i>Guardar Cliente
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR DE TOASTS -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // CREDENCIALES DE ACCESO
+        const ADMIN_CREDENTIALS = {
+            username: 'admin',
+            password: 'admin123'
+        };
+
+        // ESTADO DE LA APLICACIÓN
+        let isLoggedIn = false;
+        let currentSection = 'dashboard';
+
+        // INICIALIZACIÓN
+        document.addEventListener('DOMContentLoaded', () => {
+            // Permitir login con Enter
+            const passInput = document.getElementById('adminPass');
+            if (passInput) {
+                passInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') doAdminLogin();
+                });
+            }
+
+            // Cerrar modales al hacer clic fuera
+            window.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal-overlay')) {
+                    e.target.classList.remove('active');
+                }
+            });
+        });
+
+        // LOGIN
+        function doAdminLogin() {
+            const username = document.getElementById('adminUser').value.trim();
+            const password = document.getElementById('adminPass').value;
+
+            if (!username || !password) {
+                showToast('Por favor complete todos los campos', 'error');
+                return;
+            }
+
+            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                isLoggedIn = true;
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminDashboard').classList.add('active');
+                showToast('¡Bienvenido al panel de administración!', 'success');
+                
+                // Limpiar campos
+                document.getElementById('adminUser').value = '';
+                document.getElementById('adminPass').value = '';
+            } else {
+                showToast('Usuario o contraseña incorrectos', 'error');
+                // Efecto de shake en el formulario
+                const loginCard = document.querySelector('.login-card');
+                loginCard.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    loginCard.style.animation = '';
+                }, 500);
+            }
+        }
+
+        // LOGOUT
+        function doAdminLogout() {
+      if (confirm('¿Cerrar sesión de administrador?')) {
+                // Borrar la sesión temporal
+                sessionStorage.removeItem('currentUser');
+                sessionStorage.removeItem('currentAdmin');
+                
+                // Redirigir al Login principal del sitio
+                window.location.href = '../PoyectoCompleto.html';
+            }
+        }
+
+        // NAVEGACIÓN ENTRE SECCIONES
+        function showSection(sectionId, element) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.admin-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Mostrar la sección seleccionada
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                currentSection = sectionId;
+            }
+
+            // Actualizar menú activo
+            document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            if (element) {
+                element.classList.add('active');
+            }
+
+            // Cerrar sidebar en móvil
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        }
+
+        // TOGGLE SIDEBAR EN MÓVIL
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // MODALES
+        function openProductModal() {
+            document.getElementById('productModal').classList.add('active');
+        }
+
+        function openCategoryModal() {
+            document.getElementById('categoryModal').classList.add('active');
+        }
+
+        function openCustomerModal() {
+            document.getElementById('customerModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // GUARDAR PRODUCTO
+        function saveProduct() {
+            showToast('Producto guardado exitosamente', 'success');
+            closeModal('productModal');
+            // Aquí iría la lógica para guardar en base de datos
+        }
+
+        // GUARDAR CATEGORÍA
+        function saveCategory() {
+            showToast('Categoría guardada exitosamente', 'success');
+            closeModal('categoryModal');
+            // Aquí iría la lógica para guardar en base de datos
+        }
+
+        // GUARDAR CLIENTE
+        function saveCustomer() {
+            showToast('Cliente guardado exitosamente', 'success');
+            closeModal('customerModal');
+            // Aquí iría la lógica para guardar en base de datos
+        }
+
+        // EDITAR PRODUCTO
+        function editProduct(id) {
+            showToast('Abriendo editor de producto #' + id, 'info');
+            openProductModal();
+            // Aquí iría la lógica para cargar datos del producto
+        }
+
+        // ELIMINAR PRODUCTO
+        function deleteProduct(id) {
+            if (confirm('¿Estás seguro de eliminar este producto? Esta acción no se puede deshacer.')) {
+                showToast('Producto eliminado exitosamente', 'success');
+                // Aquí iría la lógica para eliminar de base de datos
+            }
+        }
+
+        // VER PEDIDO
+        function viewOrder(id) {
+            showToast('Abriendo detalles del pedido #ORD' + id, 'info');
+            // Aquí iría la lógica para mostrar detalles del pedido
+        }
+
+        // ACTUALIZAR ESTADO DE PEDIDO
+        function updateOrderStatus(id, status) {
+            const statusText = status === 'completed' ? 'completado' : status;
+            if (confirm(`¿Marcar pedido #ORD${id} como ${statusText}?`)) {
+                showToast('Estado del pedido actualizado exitosamente', 'success');
+                // Aquí iría la lógica para actualizar en base de datos
+            }
+        }
+
+        // VER CLIENTE
+        function viewCustomer(id) {
+            showToast('Abriendo perfil del cliente #C00' + id, 'info');
+            // Aquí iría la lógica para mostrar detalles del cliente
+        }
+
+        // EXPORTAR REPORTE
+        function exportReport(type) {
+            const reportNames = {
+                daily: 'Reporte Diario',
+                weekly: 'Reporte Semanal',
+                monthly: 'Reporte Mensual',
+                inventory: 'Estado de Inventario',
+                customers: 'Base de Datos de Clientes'
+            };
+            
+            showToast(`Generando ${reportNames[type]}...`, 'info');
+            
+            // Simular descarga después de 2 segundos
+            setTimeout(() => {
+                showToast(`${reportNames[type]} descargado exitosamente`, 'success');
+            }, 2000);
+            
+            // Aquí iría la lógica real para generar y descargar el reporte
+        }
+
+        // SISTEMA DE NOTIFICACIONES (TOAST)
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+
+            let borderColor = 'var(--success)';
+            let icon = 'check-circle-fill';
+            
+            if (type === 'error') {
+                borderColor = 'var(--danger)';
+                icon = 'x-circle-fill';
+            } else if (type === 'info') {
+                borderColor = 'var(--info)';
+                icon = 'info-circle-fill';
+            } else if (type === 'warning') {
+                borderColor = 'var(--warning)';
+                icon = 'exclamation-triangle-fill';
+            }
+
+            toast.style.borderLeftColor = borderColor;
+            toast.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <i class="bi bi-${icon}" style="font-size: 1.3rem; color: ${borderColor};"></i>
+                    <span style="flex: 1;">${message}</span>
+                </div>
+            `;
+
+            container.appendChild(toast);
+
+            // Remover después de 4 segundos
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.4s ease forwards';
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        }
+
+        // BÚSQUEDA EN TIEMPO REAL (PRODUCTOS)
+        const searchProducts = document.getElementById('searchProducts');
+        if (searchProducts) {
+            searchProducts.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                // Aquí iría la lógica para filtrar productos
+                console.log('Buscando:', searchTerm);
+            });
+        }
+
+        // BÚSQUEDA EN TIEMPO REAL (CLIENTES)
+        const searchCustomers = document.getElementById('searchCustomers');
+        if (searchCustomers) {
+            searchCustomers.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                // Aquí iría la lógica para filtrar clientes
+                console.log('Buscando cliente:', searchTerm);
+            });
+        }
+
+        // ANIMACIÓN DE SHAKE PARA ERRORES
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+                20%, 40%, 60%, 80% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // RESPONSIVE: CERRAR SIDEBAR AL CAMBIAR TAMAÑO
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+
+        // PREVENIR CIERRE ACCIDENTAL
+        window.addEventListener('beforeunload', (e) => {
+            if (isLoggedIn) {
+                // Opcional: descomentar para advertir antes de salir
+                // e.preventDefault();
+                // e.returnValue = '';
+            }
+        });
+
+        // FUNCIONES ADICIONALES PARA INTEGRACIÓN FUTURA
+
+        // Función para cargar datos del dashboard
+        function loadDashboardData() {
+            // Aquí se cargarían datos reales desde API/BD
+            console.log('Cargando datos del dashboard...');
+        }
+
+        // Función para actualizar estadísticas en tiempo real
+        function updateStats() {
+            // Actualizar estadísticas cada cierto tiempo
+            console.log('Actualizando estadísticas...');
+        }
+
+        // Función para exportar datos
+        function exportData(format, data) {
+            // Exportar a CSV, Excel, PDF, etc.
+            console.log(`Exportando datos en formato ${format}...`);
+        }
+
+        // Función para imprimir
+        function printReport(reportId) {
+            // Imprimir reporte
+            window.print();
+        }
+
+        // Inicializar cuando esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadDashboardData);
+        } else {
+            loadDashboardData();
+        }
+
+        // INTEGRACIÓN CON PROYECTO PRINCIPAL
+        // Esta función permite redirigir desde el proyecto principal al admin
+        window.openAdminPanel = function() {
+            // Si se llama desde el proyecto principal, mostrar el panel
+            if (!isLoggedIn) {
+                document.getElementById('loginScreen').style.display = 'flex';
+            } else {
+                document.getElementById('adminDashboard').classList.add('active');
+            }
+        };
+
+        // Mensaje de bienvenida en consola
+        console.log('%c🔧 Panel Administrativo MJC v2.0', 'color: #b30000; font-size: 20px; font-weight: bold;');
+        console.log('%cSistema de Gestión Integrado', 'color: #999; font-size: 14px;');
+        console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'color: #333;');
+    </script>
+</body>
+</html>
