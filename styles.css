@@ -406,46 +406,83 @@ footer {
     text-decoration: none
 }
 
-/* ---------- SOCIAL BUTTONS COLORS (usando variables) ---------- */
+/* ---------- SOCIAL BUTTONS COLORS ---------- */
 .btn-facebook {
-    background: var(--social-facebook);
-    border: 1px solid var(--social-facebook);
+    background: #1877f2;
+    border: 1px solid #1877f2;
     color: #fff !important;
-    /* Texto blanco en todos */
+    transition: all 0.3s ease;
 }
 
 .btn-facebook:hover {
-    background: var(--social-facebook-hover);
+    background: #156be6;
+    border: 1px solid #156be6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4);
+}
+
+.btn-facebook i {
+    color: #fff;
 }
 
 .btn-instagram {
-    background: var(--social-instagram);
-    border: 1px solid var(--social-instagram);
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    border: 1px solid #E1306C;
     color: #fff !important;
+    transition: all 0.3s ease;
 }
 
 .btn-instagram:hover {
-    background: var(--social-instagram-hover);
+    background: linear-gradient(45deg, #d42a63 0%, #c5205a 50%, #a91d78 100%);
+    border: 1px solid #d42a63;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(225, 48, 108, 0.4);
 }
 
-.btn-twitter {
-    background: var(--social-twitter);
-    border: 1px solid var(--social-twitter);
+.btn-instagram i {
+    color: #fff;
+}
+
+.btn-tiktok {
+    background: #000000;
+    border: 1px solid #00f2ea;
     color: #fff !important;
+    transition: all 0.3s ease;
 }
 
-.btn-twitter:hover {
-    background: var(--social-twitter-hover);
+.btn-tiktok:hover {
+    background: #00f2ea;
+    border: 1px solid #00f2ea;
+    color: #000000 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 242, 234, 0.4);
+}
+
+.btn-tiktok i {
+    color: #00f2ea;
+    transition: color 0.3s ease;
+}
+
+.btn-tiktok:hover i {
+    color: #000000;
 }
 
 .btn-youtube {
-    background: var(--social-youtube);
-    border: 1px solid var(--social-youtube);
+    background: #ff0000;
+    border: 1px solid #ff0000;
     color: #fff !important;
+    transition: all 0.3s ease;
 }
 
 .btn-youtube:hover {
-    background: var(--social-youtube-hover);
+    background: #e60000;
+    border: 1px solid #e60000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.4);
+}
+
+.btn-youtube i {
+    color: #fff;
 }
 
 /* Estilos para Favoritos */
@@ -649,4 +686,58 @@ nav.bg-panel {
     background: var(--accent);
     color: #fff;
     transform: translateY(-2px);
+}
+.btn-google {
+    background: #ffffff;
+    color: #3c4043;
+    border-color: #dadce0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.btn-google:hover {
+    background: #ffffff;
+    border-color: #dadce0;
+    color: #3c4043;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-google i {
+    color: #9f0913;
+    font-size: 1.1rem;
+}
+
+/* Mantener blanco en ambos modos */
+:root.light .btn-google {
+    background: #ffffff;
+    border-color: #dadce0;
+    color: #3c4043;
+}
+
+:root:not(.light) .btn-google {
+    background: #ffffff;
+    color: #3c4043;
+    border-color: #dadce0;
+}
+
+.divider-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+
+.divider-line {
+    flex: 1;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0;
+}
+
+.divider-text {
+    padding: 0 15px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
