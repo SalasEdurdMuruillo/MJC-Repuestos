@@ -4,8 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Repuestos MJC — Profesional (Completo)</title>
+    <title>Repuestos MJC</title>
 
+    <!-- ESTAS LÍNEAS DEBEN ESTAR AQUÍ -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -101,23 +102,33 @@
                 <div class="small-muted">Versión profesional – Mockup pulido</div>
             </div>
 
-            <div id="hero" class="carousel slide mb-4" data-bs-ride="carousel" aria-roledescription="carousel">
+            <div id="hero" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="3000"
+                aria-roledescription="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <div class="product-card text-center"
-                            style="height:220px;display:flex;align-items:center;justify-content:center;font-size:1.1rem">
-                            Promoción destacada – Envío gratis en compras mayores a $99</div>
+                        <img src="Images/LubricantesPEAK.jpg" class="d-block w-100 rounded-3" alt="Promoción 1">
                     </div>
                     <div class="carousel-item">
-                        <div class="product-card text-center"
-                            style="height:220px;display:flex;align-items:center;justify-content:center;font-size:1.1rem">
-                            Descuento en filtros deportivos</div>
+                        <img src="Images/LimpiezaRAINX.jpg" class="d-block w-100 rounded-3" alt="Promoción 2">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="Images/denso.jpg" class="d-block w-100 rounded-3" alt="Promoción 3">
                     </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#hero" data-bs-slide="prev"><span
-                        class="carousel-control-prev-icon"></span></button>
-                <button class="carousel-control-next" type="button" data-bs-target="#hero" data-bs-slide="next"><span
-                        class="carousel-control-next-icon"></span></button>
+                <button class="carousel-control-prev" type="button" data-bs-target="#hero" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#hero" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#hero" data-bs-slide-to="0" class="active" aria-current="true"
+                        aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#hero" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#hero" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
             </div>
 
             <h5>Categorías destacadas</h5>
@@ -362,86 +373,6 @@
                 <div class="product-card">
                     <h3 class="text-center mb-4">Crear Cuenta</h3>
 
-                    <!-- Formulario tradicional -->
-                    <div class="mb-3">
-                        <label class="form-label">Nombre completo</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-transparent border-end-0">
-                                <i class="bi bi-person"></i>
-                            </span>
-                            <input type="text" id="regName" class="form-control border-start-0"
-                                placeholder="Juan Pérez" />
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Correo electrónico</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-transparent border-end-0">
-                                <i class="bi bi-envelope"></i>
-                            </span>
-                            <input type="email" id="regEmail" class="form-control border-start-0"
-                                placeholder="correo@ejemplo.com" />
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Contraseña</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-transparent border-end-0">
-                                <i class="bi bi-lock"></i>
-                            </span>
-                            <input type="password" id="regPass" class="form-control border-start-0"
-                                placeholder="••••••••" />
-                            <button class="btn btn-ghost border" type="button"
-                                onclick="togglePasswordVisibility('regPass')">
-                                <i class="bi bi-eye" id="regPass-icon"></i>
-                            </button>
-                        </div>
-                        <small class="form-text text-muted">Mínimo 8 caracteres</small>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Confirmar contraseña</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-transparent border-end-0">
-                                <i class="bi bi-lock-fill"></i>
-                            </span>
-                            <input type="password" id="regPassConfirm" class="form-control border-start-0"
-                                placeholder="••••••••" />
-                            <button class="btn btn-ghost border" type="button"
-                                onclick="togglePasswordVisibility('regPassConfirm')">
-                                <i class="bi bi-eye" id="regPassConfirm-icon"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="acceptTerms">
-                        <label class="form-check-label" for="acceptTerms">
-                            Acepto los <a class="card-link" onclick="openSection('policies')">términos y condiciones</a>
-                        </label>
-                    </div>
-
-                    <button class="btn btn-main w-100 mb-3" onclick="doRegister()">
-                        <i class="bi bi-person-plus me-2"></i>
-                        Crear Cuenta
-                    </button>
-
-
-                    <div class="text-center">
-                        <span class="small-muted">¿Ya tienes cuenta? </span>
-                        <a class="card-link" onclick="openSection('login')">Inicia sesión</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="register" class="spa-section page-hidden" aria-hidden="true">
-            <div class="login-container">
-                <div class="product-card">
-                    <h3 class="text-center mb-4">Crear Cuenta</h3>
-
                     <!-- Botones de redes sociales -->
                     <div class="d-grid gap-2 mb-4">
                         <button class="btn btn-social btn-google" onclick="registerWithGoogle()">
@@ -530,38 +461,6 @@
                     <div class="text-center">
                         <span class="small-muted">¿Ya tienes cuenta? </span>
                         <a class="card-link" onclick="openSection('login')">Inicia sesión</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="register" class="spa-section page-hidden" aria-hidden="true">
-            <div class="login-container">
-                <div class="product-card">
-                    <h3 class="text-center mb-4">Crear Cuenta</h3>
-                    <div class="mb-3">
-                        <label class="form-label">Nombre completo</label>
-                        <input type="text" id="regName" class="form-control" placeholder="Juan Pérez" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Correo electrónico</label>
-                        <input type="email" id="regEmail" class="form-control" placeholder="correo@ejemplo.com" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Contraseña</label>
-                        <input type="password" id="regPass" class="form-control" placeholder="••••••••" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Confirmar contraseña</label>
-                        <input type="password" id="regPassConfirm" class="form-control" placeholder="••••••••" />
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="acceptTerms">
-                        <label class="form-check-label" for="acceptTerms">Acepto los términos y condiciones</label>
-                    </div>
-                    <button class="btn btn-main w-100 mb-3" onclick="doRegister()">Crear Cuenta</button>
-                    <div class="text-center">
-                        <a class="card-link" onclick="openSection('login')">¿Ya tienes cuenta? Inicia sesión</a>
                     </div>
                 </div>
             </div>
@@ -798,8 +697,8 @@
                 </ul>
 
                 <h4 class="mt-5">Nuestros Aliados</h4>
-                <img src="imagenes/Aliados.png" alt="Logos de Aliados y Marcas Patrocinadoras"
-                    style="width:100%; height:auto; border-radius:10px; opacity:.9;">
+                <!-- <img src="images/Aliados.png" alt="Logos de Aliados y Marcas Patrocinadoras" -->
+                style="width:100%; height:auto; border-radius:10px; opacity:.9;">
                 <hr class="mt-4 mb-4">
 
                 <h4 class="mt-4">Lo que dicen nuestros clientes</h4>
@@ -835,8 +734,8 @@
                 <p><strong><i class="bi bi-clock me-2"></i> Horario:</strong><br>Lunes a Viernes: 8:00 AM - 7:00
                     PM<br>Sábados: 10:00 AM - 5:00 PM<br>Domingos: 12:00 PM - 2:00 PM</p>
 
-                <img src="imagenes/Mapa.png" alt="Mapa de Ubicación de Repuestos MJC" class="mt-4"
-                    style="width:100%; height:250px; object-fit:cover; border-radius:10px;">
+                <!-- <img src="images/Mapa.png" alt="Mapa de Ubicación de Repuestos MJC" class="mt-4" -->
+                style="width:100%; height:250px; object-fit:cover; border-radius:10px;">
 
                 <h5 class="mt-4">Síguenos en redes sociales</h5>
                 <div class="d-flex flex-wrap gap-3 mt-3">
@@ -992,6 +891,8 @@
     </div>
 
     <div id="toastApp" class="toast-app" aria-live="polite" aria-atomic="true"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="script.js"></script>
 

@@ -1,15 +1,113 @@
-const CATEGORIES = ['Motor', 'Lubricantes', 'Eléctrico', 'Frenos', 'Accesorios', 'Transmisión', 'Suspensión', 'Iluminación', 'Herramientas', 'Limpieza'];
-let PRODUCTS = JSON.parse(localStorage.getItem('products') || JSON.stringify([
-    { id: 1, name: 'Filtro Deportivo', cat: 'Motor', sku: 'FD-001', price: 39.9, desc: 'Filtro de alto flujo para mejor performance', images: [0, 1], featured: true, best: true, discount: false },
-    { id: 2, name: 'Aceite 20W50', cat: 'Lubricantes', sku: 'AC-020', price: 24.5, desc: 'Aceite multigrado para motores exigentes', images: [0], featured: true, best: false, discount: true },
-    { id: 3, name: 'Batería 12V', cat: 'Eléctrico', sku: 'BT-12', price: 119.0, desc: 'Batería de larga duración', images: [0], featured: false, best: true, discount: false },
-    { id: 4, name: 'Pastillas de freno', cat: 'Frenos', sku: 'PF-450', price: 49.0, desc: 'Juego de pastillas para distintos modelos', images: [0], featured: true, best: false, discount: true },
-    { id: 5, name: 'Tapetes Premium', cat: 'Accesorios', sku: 'TP-11', price: 29.0, desc: 'Tapetes para todo tipo de vehículo', images: [0], featured: false, best: true, discount: false },
-    { id: 6, name: 'Amortiguador X', cat: 'Suspensión', sku: 'AM-X', price: 89.0, desc: 'Amortiguador reforzado', images: [0], featured: false, best: false, discount: false },
-    { id: 7, name: 'Luz LED', cat: 'Iluminación', sku: 'LD-7', price: 15.0, desc: 'Bombilla LED alta intensidad', images: [0], featured: false, best: false, discount: true },
-    { id: 8, name: 'Juego de Llaves', cat: 'Herramientas', sku: 'LL-8', price: 39.0, desc: 'Juego profesional de llaves mixtas', images: [0], featured: true, best: false, discount: false },
-    { id: 9, name: 'Limpiador Motor', cat: 'Limpieza', sku: 'LM-9', price: 12.5, desc: 'Limpiador concentrado para motor', images: [0], featured: false, best: false, discount: true }
-]));
+const CATEGORIES = [
+    { name: 'Motor', image: 'Images/Motor.png' },
+    { name: 'Lubricantes', image: 'Images/Lubricantes.png' },
+    { name: 'Eléctrico', image: 'Images/Electrico.png' },
+    { name: 'Frenos', image: 'Images/Frenos.png' },
+    { name: 'Accesorios', image: 'Images/Accesorios.png' },
+    { name: 'Transmisión', image: 'Images/Transmision.png' },
+    { name: 'Suspensión', image: 'Images/Suspension.png' },
+    { name: 'Iluminación', image: 'Images/Iluminacion.png' },
+    { name: 'Limpieza', image: 'Images/Limpieza.png' }
+];
+
+let PRODUCTS = [
+    {
+        id: 1,
+        name: 'Filtro Aceite',
+        cat: 'Motor',
+        sku: 'FD-001',
+        price: 39.9,
+        desc: 'Filtro de alto flujo para mejor performance',
+        images: 'Images/FiltroAceite.png',
+        featured: true,
+        best: true,
+        discount: false
+    },
+    {
+        id: 2,
+        name: 'Aceite 20W50',
+        cat: 'Lubricantes',
+        sku: 'AC-020',
+        price: 24.5,
+        desc: 'Aceite multigrado para motores exigentes',
+        images: 'Images/Aceite.png',
+        featured: true,
+        best: false,
+        discount: true
+    },
+    {
+        id: 3,
+        name: 'Batería 12V',
+        cat: 'Eléctrico',
+        sku: 'BT-12',
+        price: 119.0,
+        desc: 'Batería de larga duración',
+        images: 'Images/Bateria.png',
+        featured: false,
+        best: true,
+        discount: false
+    },
+    {
+        id: 4,
+        name: 'Pastillas de freno',
+        cat: 'Frenos',
+        sku: 'PF-450',
+        price: 49.0,
+        desc: 'Juego de pastillas para distintos modelos',
+        images: 'Images/PastillaFreno.png',
+        featured: true,
+        best: false,
+        discount: true
+    },
+    {
+        id: 5,
+        name: 'Alfombras',
+        cat: 'Accesorios',
+        sku: 'TP-11',
+        price: 29.0,
+        desc: 'Alfombras para todo tipo de vehículo',
+        images: 'Images/Alfombras.png',
+        featured: false,
+        best: true,
+        discount: false
+    },
+    {
+        id: 6,
+        name: 'Amortiguador',
+        cat: 'Suspensión',
+        sku: 'AM-X',
+        price: 89.0,
+        desc: 'Amortiguador reforzado',
+        images: 'Images/Amortiguadores.png',
+        featured: false,
+        best: false,
+        discount: false
+    },
+    {
+        id: 7,
+        name: 'Luz LED',
+        cat: 'Iluminación',
+        sku: 'LD-7',
+        price: 15.0,
+        desc: 'Bombilla LED alta intensidad',
+        images: 'Images/BombilloLED.png',
+        featured: false,
+        best: false,
+        discount: true
+    },
+    {
+        id: 9,
+        name: 'Limpiador Motor',
+        cat: 'Limpieza',
+        sku: 'LM-9',
+        price: 12.5,
+        desc: 'Limpiador concentrado para motor',
+        images: 'Images/Limpiador.png',
+        featured: false,
+        best: false,
+        discount: true
+    }
+];
 
 let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 let favorites = JSON.parse(localStorage.getItem('fav') || '[]');
@@ -68,67 +166,169 @@ function chunkArray(arr, size) {
     return out;
 }
 
+function initializeCarousels() {
+    if (typeof bootstrap === 'undefined') {
+        console.error('Bootstrap no está cargado');
+        return;
+    }
+
+    const carouselElements = document.querySelectorAll('.carousel');
+    console.log('Inicializando carruseles:', carouselElements.length);
+
+    carouselElements.forEach(element => {
+        try {
+
+            const existingCarousel = bootstrap.Carousel.getInstance(element);
+            if (existingCarousel) {
+                existingCarousel.dispose();
+            }
+
+            const items = element.querySelectorAll('.carousel-item');
+            if (items.length > 0) {
+                new bootstrap.Carousel(element, {
+                    interval: 3000,
+                    ride: 'carousel',
+                    wrap: true,
+                    touch: true,
+                    pause: 'hover'
+                });
+                console.log('Carrusel inicializado:', element.id);
+            }
+        } catch (error) {
+            console.error('Error al inicializar carrusel:', element.id, error);
+        }
+    });
+}
+
 function renderCarousels() {
     const per = slidesToShow();
 
+    // Carrusel de Categorías CON IMÁGENES
     const catInner = document.getElementById('catCarouselInner');
-    catInner.innerHTML = '';
-    const catChunks = chunkArray(CATEGORIES, per);
-    catChunks.forEach((chunk, i) => {
-        const item = document.createElement('div');
-        item.className = 'carousel-item ' + (i === 0 ? 'active' : '');
-        let cols = '';
-        chunk.forEach(c => {
-            cols += `<div class="col-6 col-md-3"><div class="product-card text-center" tabindex="0" onclick="openCategory('${c}')"><div class="product-media">ICON</div><h6 class="mt-2">${c}</h6><button class="btn btn-main w-100 mt-2" onclick="openCategory('${c}')">Ver Productos</button></div></div>`;
+    if (catInner) {
+        catInner.innerHTML = '';
+        const catChunks = chunkArray(CATEGORIES, per);
+        catChunks.forEach((chunk, i) => {
+            const item = document.createElement('div');
+            item.className = 'carousel-item ' + (i === 0 ? 'active' : '');
+            let cols = '';
+            chunk.forEach(c => {
+                // 🎯 AQUÍ SE AGREGA LA IMAGEN
+                cols += `
+                    <div class="col-6 col-md-3">
+                        <div class="product-card text-center" tabindex="0" onclick="openCategory('${c.name}')" style="cursor: pointer;">
+                            <img src="${c.image}" alt="${c.name}" 
+                                 style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 12px;">
+                            <h6 class="mt-2">${c.name}</h6>
+                            <button class="btn btn-main w-100 mt-2" onclick="event.stopPropagation(); openCategory('${c.name}')">
+                                Ver Productos
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            item.innerHTML = `<div class="row g-3">${cols}</div>`;
+            catInner.appendChild(item);
         });
-        item.innerHTML = `<div class="row g-3">${cols}</div>`;
-        catInner.appendChild(item);
-    });
+    }
 
+    // Carrusel de Productos Recomendados
     const recInner = document.getElementById('recCarouselInner');
-    recInner.innerHTML = '';
-    const recs = PRODUCTS.filter(p => p.featured);
-    const recChunks = chunkArray(recs, per);
-    recChunks.forEach((chunk, i) => {
-        const item = document.createElement('div');
-        item.className = 'carousel-item ' + (i === 0 ? 'active' : '');
-        let cols = '';
-        chunk.forEach(p => {
-            cols += `<div class="col-6 col-md-3"><div class="product-card text-center" tabindex="0"><div class="product-media" aria-hidden="true">IMG</div><h6 class="mt-2 product-title">${p.name}</h6><div class="small-muted">${p.cat} · ${p.sku}</div><div class="mt-2 price">${money(p.price)}</div><div class="d-grid gap-2 mt-2"><button class="btn btn-ghost btn-sm" onclick="viewDetail(${p.id})">Ver Detalle</button><button class="btn btn-main btn-sm" onclick="animatedAddToCart(${p.id}, this)">Comprar</button></div></div></div>`;
+    if (recInner) {
+        recInner.innerHTML = '';
+        const recs = PRODUCTS.filter(p => p.featured);
+        const recChunks = chunkArray(recs, per);
+        recChunks.forEach((chunk, i) => {
+            const item = document.createElement('div');
+            item.className = 'carousel-item ' + (i === 0 ? 'active' : '');
+            let cols = '';
+            chunk.forEach(p => {
+                cols += `
+                    <div class="col-6 col-md-3">
+                        <div class="product-card text-center" tabindex="0">
+                            <img src="${p.images}" alt="${p.name}" 
+                                 style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; cursor: pointer;"
+                                 onclick="viewDetail(${p.id})">
+                            <h6 class="mt-2 product-title">${p.name}</h6>
+                            <div class="small-muted">${p.cat} · ${p.sku}</div>
+                            <div class="mt-2 price">${money(p.price)}</div>
+                            <div class="d-grid gap-2 mt-2">
+                                <button class="btn btn-ghost btn-sm" onclick="viewDetail(${p.id})">Ver Detalle</button>
+                                <button class="btn btn-main btn-sm" onclick="animatedAddToCart(${p.id}, this)">Comprar</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            item.innerHTML = `<div class="row g-3">${cols}</div>`;
+            recInner.appendChild(item);
         });
-        item.innerHTML = `<div class="row g-3">${cols}</div>`;
-        recInner.appendChild(item);
-    });
+    }
 
+    // 🔥 Carrusel de Más Vendidos CON IMÁGENES
     const bestInner = document.getElementById('bestCarouselInner');
-    bestInner.innerHTML = '';
-    const bests = PRODUCTS.filter(p => p.best);
-    const bestChunks = chunkArray(bests, per);
-    bestChunks.forEach((chunk, i) => {
-        const item = document.createElement('div');
-        item.className = 'carousel-item ' + (i === 0 ? 'active' : '');
-        let cols = '';
-        chunk.forEach(p => {
-            cols += `<div class="col-6 col-md-3"><div class="product-card text-center" tabindex="0"><div class="product-media" aria-hidden="true">IMG</div><h6 class="mt-2 product-title">${p.name}</h6><div class="mt-2 price">${money(p.price)}</div><div class="d-grid gap-2 mt-2"><button class="btn btn-ghost btn-sm" onclick="viewDetail(${p.id})">Ver</button><button class="btn btn-main btn-sm" onclick="animatedAddToCart(${p.id}, this)">Comprar</button></div></div></div>`;
+    if (bestInner) {
+        bestInner.innerHTML = '';
+        const bests = PRODUCTS.filter(p => p.best);
+        const bestChunks = chunkArray(bests, per);
+        bestChunks.forEach((chunk, i) => {
+            const item = document.createElement('div');
+            item.className = 'carousel-item ' + (i === 0 ? 'active' : '');
+            let cols = '';
+            chunk.forEach(p => {
+                cols += `
+                    <div class="col-6 col-md-3">
+                        <div class="product-card text-center" tabindex="0">
+                            <img src="${p.images}" alt="${p.name}" 
+                                 style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; cursor: pointer;"
+                                 onclick="viewDetail(${p.id})">
+                            <h6 class="mt-2 product-title">${p.name}</h6>
+                            <div class="mt-2 price">${money(p.price)}</div>
+                            <div class="d-grid gap-2 mt-2">
+                                <button class="btn btn-ghost btn-sm" onclick="viewDetail(${p.id})">Ver</button>
+                                <button class="btn btn-main btn-sm" onclick="animatedAddToCart(${p.id}, this)">Comprar</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            item.innerHTML = `<div class="row g-3">${cols}</div>`;
+            bestInner.appendChild(item);
         });
-        item.innerHTML = `<div class="row g-3">${cols}</div>`;
-        bestInner.appendChild(item);
-    });
+    }
+
+    // CRÍTICO: Inicializar después de renderizar
+    setTimeout(() => {
+        initializeCarousels();
+    }, 150);
 }
 
 function populateFilters() {
     const sel = document.getElementById('filterCategory');
+    
+    // 🔥 VALIDACIÓN: Verificar que el elemento existe
+    if (!sel) {
+        console.warn('Elemento filterCategory no encontrado');
+        return;
+    }
+    
     sel.innerHTML = '';
+    
+    // Opción "Todas"
     const oAll = document.createElement('option');
     oAll.value = '';
     oAll.text = 'Todas';
     sel.add(oAll);
+    
+    // Agregar categorías
     CATEGORIES.forEach(c => {
         const o = document.createElement('option');
-        o.value = c;
-        o.text = c;
+        o.value = c.name;   // 👈 Usar c.name (no solo c)
+        o.text = c.name;    // 👈 Usar c.name (no solo c)
         sel.add(o);
     });
+    
+    console.log('Filtros poblados correctamente');
 }
 
 function showCatalogLoading() {
@@ -186,7 +386,23 @@ function applyFilter() {
 
 function cardHtml(p) {
     const discountHtml = p.discount ? `<div class="small-muted">Oferta</div>` : '';
-    return `<div class="product-card" tabindex="0" aria-labelledby="p${p.id}-name"><div class="product-media" aria-hidden="true">IMG</div><h6 id="p${p.id}-name" class="mt-2 product-title">${p.name}</h6><div class="small-muted">${p.cat} · ${p.sku}</div><div class="d-flex justify-content-between align-items-center mt-2"><div class="price">${money(p.price)}</div><div><button class="btn btn-ghost btn-sm" onclick="viewDetail(${p.id})">Ver</button><button class="btn btn-main btn-sm ms-1" onclick="animatedAddToCart(${p.id}, this)">Comprar</button></div></div>${discountHtml}</div>`;
+    return `
+        <div class="product-card" tabindex="0" aria-labelledby="p${p.id}-name">
+            <img src="${p.images}" alt="${p.name}" 
+                 style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; cursor: pointer;"
+                 onclick="viewDetail(${p.id})">
+            <h6 id="p${p.id}-name" class="mt-2 product-title">${p.name}</h6>
+            <div class="small-muted">${p.cat} · ${p.sku}</div>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+                <div class="price">${money(p.price)}</div>
+                <div>
+                    <button class="btn btn-ghost btn-sm" onclick="viewDetail(${p.id})">Ver</button>
+                    <button class="btn btn-main btn-sm ms-1" onclick="animatedAddToCart(${p.id}, this)">Comprar</button>
+                </div>
+            </div>
+            ${discountHtml}
+        </div>
+    `;
 }
 
 function openCategory(cat) {
@@ -223,17 +439,72 @@ function viewDetail(id) {
         document.getElementById('detailCategory').innerText = p.cat;
         document.getElementById('detailPrice').innerText = money(p.price);
         document.getElementById('detailDesc').innerText = p.desc;
+
         const imgs = document.getElementById('detailImages');
         imgs.innerHTML = '';
-        p.images.forEach((im, i) => {
+
+        // Si 'images' es un string (una sola imagen)
+        if (typeof p.images === 'string') {
             const d = document.createElement('div');
-            d.className = 'carousel-item ' + (i === 0 ? 'active' : '');
-            d.innerHTML = `<div class="product-media" style="height:260px">Imagen ${i + 1}</div>`;
+            d.className = 'carousel-item active';
+            d.innerHTML = `
+                <img src="${p.images}" alt="${p.name}" 
+                     style="width: 100%; height: 400px; object-fit: contain; border-radius: 8px;">
+            `;
             imgs.appendChild(d);
-        });
+        }
+        // Si 'images' es un array (múltiples imágenes)
+        else if (Array.isArray(p.images)) {
+            p.images.forEach((img, i) => {
+                const d = document.createElement('div');
+                d.className = 'carousel-item ' + (i === 0 ? 'active' : '');
+                d.innerHTML = `
+                    <img src="${img}" alt="${p.name} - Imagen ${i + 1}" 
+                         style="width: 100%; height: 400px; object-fit: contain; border-radius: 8px;">
+                `;
+                imgs.appendChild(d);
+            });
+        }
+
+        // 🔥 ACTUALIZAR ESTADO DEL BOTÓN DE FAVORITOS
+        updateFavoriteButton(id);
+
         renderRelated(p);
         openSection('productDetail');
+
+        // Inicializar carrusel de detalle
+        setTimeout(() => {
+            const detailCarousel = document.getElementById('detailCarousel');
+            if (detailCarousel && typeof bootstrap !== 'undefined') {
+                const existingInstance = bootstrap.Carousel.getInstance(detailCarousel);
+                if (existingInstance) {
+                    existingInstance.dispose();
+                }
+                new bootstrap.Carousel(detailCarousel, {
+                    interval: 3000,
+                    ride: 'carousel',
+                    wrap: true
+                });
+            }
+        }, 150);
     }, 300);
+}
+
+function updateFavoriteButton(id) {
+    const favBtn = document.getElementById('favBtn');
+    if (!favBtn) return;
+    
+    const isFavorite = favorites.includes(id);
+    
+    if (isFavorite) {
+        favBtn.innerHTML = '<i class="bi bi-heart-fill"></i>';
+        favBtn.classList.add('text-danger');
+        favBtn.setAttribute('aria-pressed', 'true');
+    } else {
+        favBtn.innerHTML = '<i class="bi bi-heart"></i>';
+        favBtn.classList.remove('text-danger');
+        favBtn.setAttribute('aria-pressed', 'false');
+    }
 }
 
 function renderRelated(p) {
@@ -294,7 +565,26 @@ function renderCart() {
         subtotal += p.price * ci.qty;
         const div = document.createElement('div');
         div.className = 'product-card mb-2';
-        div.innerHTML = `<div class="d-flex align-items-center"><div style="width:72px;height:72px;background:#000;margin-right:12px;border-radius:8px"></div><div class="flex-grow-1"><strong>${p.name}</strong><div class="small-muted">${p.cat}</div></div><div class="text-end"><div>${money(p.price)}</div><div class="d-flex gap-1 mt-2"><input type="number" min="1" value="${ci.qty}" style="width:70px" onchange="changeQty(${ci.id},this.value)" class="form-control form-control-sm" /><button class="btn btn-ghost btn-sm ms-1" onclick="removeFromCart(${ci.id})"><i class="bi bi-trash"></i></button></div></div></div>`;
+        div.innerHTML = `
+            <div class="d-flex align-items-center">
+                <img src="${p.images}" alt="${p.name}" 
+                     style="width:72px; height:72px; object-fit:cover; border-radius:8px; margin-right:12px;">
+                <div class="flex-grow-1">
+                    <strong>${p.name}</strong>
+                    <div class="small-muted">${p.cat}</div>
+                </div>
+                <div class="text-end">
+                    <div>${money(p.price)}</div>
+                    <div class="d-flex gap-1 mt-2">
+                        <input type="number" min="1" value="${ci.qty}" style="width:70px" 
+                               onchange="changeQty(${ci.id},this.value)" class="form-control form-control-sm" />
+                        <button class="btn btn-ghost btn-sm ms-1" onclick="removeFromCart(${ci.id})">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
         cont.appendChild(div);
     });
     document.getElementById('cartSubtotal').innerText = money(subtotal);
@@ -325,11 +615,30 @@ function clearCart() {
 
 function toggleFavorite(id) {
     if (!id) return;
-    if (favorites.includes(id)) favorites = favorites.filter(x => x !== id);
-    else favorites.push(id);
+    
+    const favBtn = document.getElementById('favBtn');
+    
+    if (favorites.includes(id)) {
+        favorites = favorites.filter(x => x !== id);
+        toast('Eliminado de favoritos', 'warn');
+    } else {
+        favorites.push(id);
+        toast('Agregado a favoritos', 'success');
+        
+        // 🎨 Animación
+        if (favBtn) {
+            favBtn.classList.add('adding');
+            setTimeout(() => favBtn.classList.remove('adding'), 300);
+        }
+    }
+    
     saveState();
-    renderFavorites();
-    toast('Favorito actualizado');
+    updateFavoriteButton(id);
+    
+    const favSection = document.getElementById('favorites');
+    if (favSection && !favSection.classList.contains('page-hidden')) {
+        renderFavorites();
+    }
 }
 
 function renderFavorites() {
@@ -344,7 +653,23 @@ function renderFavorites() {
         if (!p) return;
         const col = document.createElement('div');
         col.className = 'col-6 col-md-3';
-        col.innerHTML = `<div class="product-card favorite-card"><button class="btn btn-ghost btn-sm favorite-remove" onclick="toggleFavorite(${p.id})"><i class="bi bi-x-circle"></i></button><div class="product-media" onclick="viewDetail(${p.id})" style="cursor:pointer">IMG</div><h6 class="mt-2 product-title">${p.name}</h6><div class="small-muted">${p.cat}</div><div class="mt-2 price">${money(p.price)}</div><div class="d-grid gap-2 mt-2"><button class="btn btn-ghost btn-sm" onclick="viewDetail(${p.id})">Ver</button><button class="btn btn-main btn-sm" onclick="animatedAddToCart(${p.id}, this)">Comprar</button></div></div>`;
+        col.innerHTML = `
+            <div class="product-card favorite-card">
+                <button class="btn btn-ghost btn-sm favorite-remove" onclick="toggleFavorite(${p.id})">
+                    <i class="bi bi-x-circle"></i>
+                </button>
+                <img src="${p.images}" alt="${p.name}" 
+                     style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; cursor: pointer;"
+                     onclick="viewDetail(${p.id})">
+                <h6 class="mt-2 product-title">${p.name}</h6>
+                <div class="small-muted">${p.cat}</div>
+                <div class="mt-2 price">${money(p.price)}</div>
+                <div class="d-grid gap-2 mt-2">
+                    <button class="btn btn-ghost btn-sm" onclick="viewDetail(${p.id})">Ver</button>
+                    <button class="btn btn-main btn-sm" onclick="animatedAddToCart(${p.id}, this)">Comprar</button>
+                </div>
+            </div>
+        `;
         cont.appendChild(col);
     });
 }
@@ -460,60 +785,54 @@ function checkLoginAndOpen() {
         openSection('login');
     } else {
         if (currentUser.isAdmin) {
-         openSection('login');   
+            openSection('login');
         } else {
             openSection('account');
         }
     }
 }
 
-// ============ FUNCIÓN MEJORADA DE LOGIN TRADICIONAL ============
-
 function doLoginPage() {
     const email = document.getElementById('loginEmailPage').value.trim();
     const pass = document.getElementById('loginPassPage').value;
     const remember = document.getElementById('rememberMe').checked;
-    
-    // Validaciones (mantenerlas)
+
     if (!email) {
         toast('Por favor ingresa tu correo electrónico', 'warn');
         document.getElementById('loginEmailPage').focus();
         return;
     }
-    
+
     if (!isValidEmail(email)) {
         toast('Por favor ingresa un correo válido', 'warn');
         document.getElementById('loginEmailPage').focus();
         return;
     }
-    
+
     if (!pass) {
         toast('Por favor ingresa tu contraseña', 'warn');
         document.getElementById('loginPassPage').focus();
         return;
     }
-    
-    // Buscar usuario
+
     const user = users.find(u => u.email === email && u.password === pass);
-    
+
     if (!user) {
         toast('Correo o contraseña incorrectos', 'warn');
         return;
     }
-    
+
     if (user.isAdmin) {
         toast('Redirigiendo a Panel de Administración...', 'success');
-        
         document.getElementById('loginEmailPage').value = '';
         document.getElementById('loginPassPage').value = '';
-
         window.location.href = 'admin/admin.html';
+        return;
     }
 
     user.lastLogin = new Date().toISOString();
-    currentUser = user; // Guardar el usuario en la variable global SOLO si no es admin
-    
-    // Guardar preferencia de recordar
+    currentUser = user;
+
     if (remember) {
         localStorage.setItem('rememberUser', JSON.stringify({
             email: email,
@@ -522,60 +841,106 @@ function doLoginPage() {
     } else {
         localStorage.removeItem('rememberUser');
     }
-    
-    saveState(); // Guardar el estado (incluyendo el currentUser) SOLO si no es admin
+
+    saveState();
     toast('¡Bienvenido ' + user.name + '!', 'success');
-    
-    // Redirigir al panel de usuario
     openSection('account');
-    
-    // Limpiar campos
+
     document.getElementById('loginEmailPage').value = '';
     document.getElementById('loginPassPage').value = '';
 }
 
 function doRegister() {
-    const name = document.getElementById('regName').value;
-    const email = document.getElementById('regEmail').value;
+    const name = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
     const pass = document.getElementById('regPass').value;
     const passConfirm = document.getElementById('regPassConfirm').value;
     const acceptTerms = document.getElementById('acceptTerms').checked;
 
-    if (!name || !email || !pass || !passConfirm) {
-        toast('Complete todos los campos', 'warn');
+    if (!name) {
+        toast('Por favor ingresa tu nombre completo', 'warn');
+        document.getElementById('regName').focus();
         return;
     }
+
+    if (name.length < 3) {
+        toast('El nombre debe tener al menos 3 caracteres', 'warn');
+        return;
+    }
+
+    if (!email) {
+        toast('Por favor ingresa tu correo electrónico', 'warn');
+        document.getElementById('regEmail').focus();
+        return;
+    }
+
+    if (!isValidEmail(email)) {
+        toast('Por favor ingresa un correo válido', 'warn');
+        return;
+    }
+
+    if (!pass) {
+        toast('Por favor ingresa una contraseña', 'warn');
+        document.getElementById('regPass').focus();
+        return;
+    }
+
+    if (pass.length < 8) {
+        toast('La contraseña debe tener al menos 8 caracteres', 'warn');
+        return;
+    }
+
+    if (!passConfirm) {
+        toast('Por favor confirma tu contraseña', 'warn');
+        document.getElementById('regPassConfirm').focus();
+        return;
+    }
+
     if (pass !== passConfirm) {
         toast('Las contraseñas no coinciden', 'warn');
         return;
     }
+
     if (!acceptTerms) {
-        toast('Debe aceptar los términos', 'warn');
+        toast('Debes aceptar los términos y condiciones', 'warn');
         return;
     }
+
     if (users.find(u => u.email === email)) {
-        toast('El correo ya está registrado', 'warn');
+        toast('Este correo ya está registrado', 'warn');
         return;
     }
+
     const newUser = {
         id: users.length + 1,
         name: name,
         email: email,
         password: pass,
-        isAdmin: false
+        provider: 'email',
+        isAdmin: false,
+        createdAt: new Date().toISOString(),
+        lastLogin: new Date().toISOString()
     };
+
     users.push(newUser);
     currentUser = newUser;
     saveState();
-    toast('Cuenta creada exitosamente', 'success');
+
+    toast('¡Cuenta creada exitosamente!', 'success');
     openSection('account');
+
+    document.getElementById('regName').value = '';
+    document.getElementById('regEmail').value = '';
+    document.getElementById('regPass').value = '';
+    document.getElementById('regPassConfirm').value = '';
+    document.getElementById('acceptTerms').checked = false;
 }
 
 function doLogout() {
     if (!confirm('¿Cerrar sesión?')) return;
     currentUser = null;
     saveState();
-    toast('Sesión cerrada');
+    toast('Sesión cerrada exitosamente', 'success');
     openSection('home');
 }
 
@@ -681,10 +1046,11 @@ function openProductModal(id = null) {
     const modal = new bootstrap.Modal(document.getElementById('productModal'));
     const select = document.getElementById('prodCat');
     select.innerHTML = '';
+
     CATEGORIES.forEach(c => {
         const opt = document.createElement('option');
-        opt.value = c;
-        opt.text = c;
+        opt.value = c.name;
+        opt.text = c.name;
         select.add(opt);
     });
 
@@ -706,7 +1072,7 @@ function openProductModal(id = null) {
         document.getElementById('productModalTitle').innerText = 'Nuevo Producto';
         document.getElementById('editProductId').value = '';
         document.getElementById('prodName').value = '';
-        document.getElementById('prodCat').value = CATEGORIES[0];
+        document.getElementById('prodCat').value = CATEGORIES[0].name;  // 👈 CAMBIO AQUÍ
         document.getElementById('prodSku').value = '';
         document.getElementById('prodPrice').value = '';
         document.getElementById('prodDesc').value = '';
@@ -795,7 +1161,7 @@ function openSection(id) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     if (id === 'catalog') renderCatalog();
-    if (id === 'offers') renderOffers();
+    if (id === 'offers') renderOffers();  // 👈 ESTA LÍNEA DEBE ESTAR
     if (id === 'orders') renderOrders();
     if (id === 'favorites') renderFavorites();
     if (id === 'profile' && currentUser) {
@@ -814,25 +1180,83 @@ function openSection(id) {
 }
 
 function renderOffers() {
+    console.log('=== RENDERIZANDO OFERTAS ===');
+    
     const c = document.getElementById('offersList');
-    c.innerHTML = '';
-    const discounted = PRODUCTS.filter(p => p.discount);
-    if (discounted.length === 0) {
-        c.innerHTML = '<div class="col-12"><div class="product-card text-center py-5"><i class="bi bi-tag" style="font-size: 48px; opacity: 0.3;"></i><h5 class="mt-3">No hay ofertas disponibles</h5></div></div>';
+    const h = document.getElementById('offersHome');
+    
+    if (!c) {
+        console.error('ERROR: No se encontró elemento offersList');
         return;
     }
+    
+    c.innerHTML = '';
+    const discounted = PRODUCTS.filter(p => p.discount);
+    
+    console.log('Productos en oferta:', discounted.length);
+    console.log('Productos:', discounted);
+    
+    if (discounted.length === 0) {
+        c.innerHTML = '<div class="col-12"><div class="product-card text-center py-5"><i class="bi bi-tag" style="font-size: 48px; opacity: 0.3;"></i><h5 class="mt-3">No hay ofertas disponibles</h5><p class="small-muted">Pronto tendremos promociones especiales</p></div></div>';
+        if (h) h.innerHTML = '';
+        return;
+    }
+    
+    // Renderizar ofertas en la página de Ofertas
     discounted.forEach(p => {
         const col = document.createElement('div');
         col.className = 'col-6 col-md-4';
-        col.innerHTML = `<div class='product-card'><div class="product-media" onclick="viewDetail(${p.id})" style="cursor:pointer">IMG</div><h6 class='mt-2'>${p.name}</h6><div class='small-muted'>${p.cat}</div><div class='mt-2 d-flex align-items-center gap-2'><strong class="price">${money(p.price * 0.9)}</strong> <span class='small-muted' style='text-decoration:line-through'>${money(p.price)}</span><span class="badge bg-danger">-10%</span></div><div class='mt-2'><button class='btn btn-main btn-sm w-100' onclick='viewDetail(${p.id})'>Ver detalle</button></div></div>`;
+        col.innerHTML = `
+            <div class='product-card'>
+                <img src="${p.images}" 
+                     alt="${p.name}" 
+                     style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; cursor: pointer;"
+                     onclick="viewDetail(${p.id})"
+                     onerror="this.style.background='#333'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<span style=color:#999>Sin imagen</span>';">
+                <h6 class='mt-2'>${p.name}</h6>
+                <div class='small-muted'>${p.cat}</div>
+                <div class='mt-2 d-flex align-items-center gap-2'>
+                    <strong class="price">${money(p.price * 0.9)}</strong> 
+                    <span class='small-muted' style='text-decoration:line-through'>${money(p.price)}</span>
+                    <span class="badge bg-danger">-10%</span>
+                </div>
+                <div class='mt-2'>
+                    <button class='btn btn-main btn-sm w-100' onclick='viewDetail(${p.id})'>Ver detalle</button>
+                </div>
+            </div>
+        `;
         c.appendChild(col);
     });
 
-    const h = document.getElementById('offersHome');
-    h.innerHTML = '';
-    discounted.slice(0, 3).forEach(p => {
-        h.innerHTML += `<div class='col-6 col-md-4'><div class='product-card' onclick='viewDetail(${p.id})' style='cursor:pointer'><div class='d-flex justify-content-between align-items-center'><div><strong>${p.name}</strong><div class='small-muted'>${p.cat}</div></div><div class='text-end'><strong class='price'>${money(p.price * 0.9)}</strong><div class='small-muted' style='text-decoration:line-through'>${money(p.price)}</div></div></div></div></div>`;
-    });
+    // Renderizar ofertas en la página de Inicio (máximo 3)
+    if (h) {
+        h.innerHTML = '';
+        discounted.slice(0, 3).forEach(p => {
+            const col = document.createElement('div');
+            col.className = 'col-6 col-md-4';
+            col.innerHTML = `
+                <div class='product-card' onclick='viewDetail(${p.id})' style='cursor:pointer'>
+                    <img src="${p.images}" 
+                         alt="${p.name}" 
+                         style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 12px;"
+                         onerror="this.style.background='#333'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<span style=color:#999>Sin imagen</span>';">
+                    <div class='d-flex justify-content-between align-items-center'>
+                        <div>
+                            <strong>${p.name}</strong>
+                            <div class='small-muted'>${p.cat}</div>
+                        </div>
+                        <div class='text-end'>
+                            <strong class='price'>${money(p.price * 0.9)}</strong>
+                            <div class='small-muted' style='text-decoration:line-through'>${money(p.price)}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            h.appendChild(col);
+        });
+    }
+    
+    console.log('Ofertas renderizadas correctamente');
 }
 
 function renderCartCount() {
@@ -845,7 +1269,16 @@ function initCategoryGrid() {
     CATEGORIES.forEach(c => {
         const col = document.createElement('div');
         col.className = 'col-6 col-md-3';
-        col.innerHTML = `<div class="product-card text-center" onclick="openCategory('${c}')" style="cursor:pointer"><div class="product-media">${c.charAt(0)}</div><h6 class="mt-2">${c}</h6><button class="btn btn-main btn-sm w-100 mt-2" onclick="event.stopPropagation(); openCategory('${c}')">Ver productos</button></div>`;
+        col.innerHTML = `
+            <div class="product-card text-center" onclick="openCategory('${c.name}')" style="cursor:pointer">
+                <img src="${c.image}" alt="${c.name}" 
+                     style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 12px;">
+                <h6 class="mt-2">${c.name}</h6>
+                <button class="btn btn-main btn-sm w-100 mt-2" onclick="event.stopPropagation(); openCategory('${c.name}')">
+                    Ver productos
+                </button>
+            </div>
+        `;
         grid.appendChild(col);
     });
 }
@@ -911,282 +1344,15 @@ function showPolicy(type, el) {
     }
 }
 
-function initApp() {
-    applyTheme();
-    renderCarousels();
-    populateFilters();
-    renderCatalog();
-    renderOffers();
-    renderCart();
-    renderFavorites();
-    renderCartCount();
-    initCategoryGrid();
-    document.getElementById('catalogSearch')?.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') applyFilter();
-    });
-
-    if (users.length === 0) {
-        users.push({
-            id: 1,
-            name: 'Administrador',
-            email: 'admin@mjc.com',
-            password: 'admin123',
-            isAdmin: true
-        });
-        saveState();
-    }
-}
-function loginWithGoogle() {
-    // En producción, aquí irían las credenciales de Google OAuth
-    // Por ahora, simulamos el proceso
-    
-    toast('Conectando con Google...', 'default');
-    
-    // Simulación de respuesta de Google
-    setTimeout(() => {
-        const googleUser = {
-            id: 'google_' + Date.now(),
-            name: 'Usuario de Google',
-            email: 'usuario@gmail.com',
-            provider: 'google',
-            profilePicture: null,
-            isAdmin: false,
-            createdAt: new Date().toISOString()
-        };
-        
-        // Verificar si el usuario ya existe
-        let existingUser = users.find(u => u.email === googleUser.email);
-        
-        if (existingUser) {
-            // Usuario existente - actualizar información
-            existingUser.provider = 'google';
-            existingUser.lastLogin = new Date().toISOString();
-            currentUser = existingUser;
-        } else {
-            // Nuevo usuario - registrar
-            googleUser.id = users.length + 1;
-            users.push(googleUser);
-            currentUser = googleUser;
-        }
-        
-        saveState();
-        toast('Sesión iniciada con Google', 'success');
-        openSection('account');
-    }, 1500);
-}
-
-// Simular login con Facebook
-function loginWithFacebook() {
-    // En producción, aquí irían las credenciales de Facebook OAuth
-    toast('Conectando con Facebook...', 'default');
-    
-    setTimeout(() => {
-        const facebookUser = {
-            id: 'facebook_' + Date.now(),
-            name: 'Usuario de Facebook',
-            email: 'usuario@facebook.com',
-            provider: 'facebook',
-            profilePicture: null,
-            isAdmin: false,
-            createdAt: new Date().toISOString()
-        };
-        
-        let existingUser = users.find(u => u.email === facebookUser.email);
-        
-        if (existingUser) {
-            existingUser.provider = 'facebook';
-            existingUser.lastLogin = new Date().toISOString();
-            currentUser = existingUser;
-        } else {
-            facebookUser.id = users.length + 1;
-            users.push(facebookUser);
-            currentUser = facebookUser;
-        }
-        
-        saveState();
-        toast('Sesión iniciada con Facebook', 'success');
-        openSection('account');
-    }, 1500);
-}
-
-// Registro con Google
-function registerWithGoogle() {
-    loginWithGoogle(); // Mismo proceso que login
-}
-
-// Registro con Facebook
-function registerWithFacebook() {
-    loginWithFacebook(); // Mismo proceso que login
-}
-
-// ============ FUNCIÓN MEJORADA DE LOGIN TRADICIONAL ============
-
-function doLoginPage() {
-    const email = document.getElementById('loginEmailPage').value.trim();
-    const pass = document.getElementById('loginPassPage').value;
-    const remember = document.getElementById('rememberMe').checked;
-    
-    // Validaciones
-    if (!email) {
-        toast('Por favor ingresa tu correo electrónico', 'warn');
-        document.getElementById('loginEmailPage').focus();
-        return;
-    }
-    
-    if (!isValidEmail(email)) {
-        toast('Por favor ingresa un correo válido', 'warn');
-        document.getElementById('loginEmailPage').focus();
-        return;
-    }
-    
-    if (!pass) {
-        toast('Por favor ingresa tu contraseña', 'warn');
-        document.getElementById('loginPassPage').focus();
-        return;
-    }
-    
-    // Buscar usuario
-    const user = users.find(u => u.email === email && u.password === pass);
-    
-    if (!user) {
-        toast('Correo o contraseña incorrectos', 'warn');
-        return;
-    }
-    
-    // Login exitoso
-    user.lastLogin = new Date().toISOString();
-    currentUser = user;
-    
-    // Guardar preferencia de recordar
-    if (remember) {
-        localStorage.setItem('rememberUser', JSON.stringify({
-            email: email,
-            timestamp: Date.now()
-        }));
-    } else {
-        localStorage.removeItem('rememberUser');
-    }
-    
-    saveState();
-    toast('¡Bienvenido ' + user.name + '!', 'success');
-    
-    // Redirigir según tipo de usuario
-    if (user.isAdmin) {
-        window.location.href = 'admin/admin.html';
-    } else {
-        openSection('account');
-    }
-    
-    // Limpiar campos
-    document.getElementById('loginEmailPage').value = '';
-    document.getElementById('loginPassPage').value = '';
-}
-
-// ============ FUNCIÓN MEJORADA DE REGISTRO ============
-
-function doRegister() {
-    const name = document.getElementById('regName').value.trim();
-    const email = document.getElementById('regEmail').value.trim();
-    const pass = document.getElementById('regPass').value;
-    const passConfirm = document.getElementById('regPassConfirm').value;
-    const acceptTerms = document.getElementById('acceptTerms').checked;
-
-    // Validaciones
-    if (!name) {
-        toast('Por favor ingresa tu nombre completo', 'warn');
-        document.getElementById('regName').focus();
-        return;
-    }
-    
-    if (name.length < 3) {
-        toast('El nombre debe tener al menos 3 caracteres', 'warn');
-        return;
-    }
-    
-    if (!email) {
-        toast('Por favor ingresa tu correo electrónico', 'warn');
-        document.getElementById('regEmail').focus();
-        return;
-    }
-    
-    if (!isValidEmail(email)) {
-        toast('Por favor ingresa un correo válido', 'warn');
-        return;
-    }
-    
-    if (!pass) {
-        toast('Por favor ingresa una contraseña', 'warn');
-        document.getElementById('regPass').focus();
-        return;
-    }
-    
-    if (pass.length < 8) {
-        toast('La contraseña debe tener al menos 8 caracteres', 'warn');
-        return;
-    }
-    
-    if (!passConfirm) {
-        toast('Por favor confirma tu contraseña', 'warn');
-        document.getElementById('regPassConfirm').focus();
-        return;
-    }
-    
-    if (pass !== passConfirm) {
-        toast('Las contraseñas no coinciden', 'warn');
-        return;
-    }
-    
-    if (!acceptTerms) {
-        toast('Debes aceptar los términos y condiciones', 'warn');
-        return;
-    }
-    
-    // Verificar si el usuario ya existe
-    if (users.find(u => u.email === email)) {
-        toast('Este correo ya está registrado', 'warn');
-        return;
-    }
-    
-    // Crear nuevo usuario
-    const newUser = {
-        id: users.length + 1,
-        name: name,
-        email: email,
-        password: pass,
-        provider: 'email',
-        isAdmin: false,
-        createdAt: new Date().toISOString(),
-        lastLogin: new Date().toISOString()
-    };
-    
-    users.push(newUser);
-    currentUser = newUser;
-    saveState();
-    
-    toast('¡Cuenta creada exitosamente!', 'success');
-    openSection('account');
-    
-    // Limpiar formulario
-    document.getElementById('regName').value = '';
-    document.getElementById('regEmail').value = '';
-    document.getElementById('regPass').value = '';
-    document.getElementById('regPassConfirm').value = '';
-    document.getElementById('acceptTerms').checked = false;
-}
-
-// ============ FUNCIONES AUXILIARES ============
-
-// Validar formato de email
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
 
-// Mostrar/ocultar contraseña
 function togglePasswordVisibility(inputId) {
     const input = document.getElementById(inputId);
     const icon = document.getElementById(inputId + '-icon');
-    
+
     if (input.type === 'password') {
         input.type = 'text';
         icon.className = 'bi bi-eye-slash';
@@ -1196,38 +1362,34 @@ function togglePasswordVisibility(inputId) {
     }
 }
 
-// Mostrar formulario de recuperación de contraseña
 function showForgotPassword() {
     const email = prompt('Ingresa tu correo electrónico para recuperar tu contraseña:');
-    
+
     if (!email) return;
-    
+
     if (!isValidEmail(email)) {
         toast('Por favor ingresa un correo válido', 'warn');
         return;
     }
-    
+
     const user = users.find(u => u.email === email);
-    
+
     if (!user) {
         toast('No encontramos una cuenta con ese correo', 'warn');
         return;
     }
-    
-    // Simulación de envío de email
+
     toast('Se ha enviado un enlace de recuperación a tu correo', 'success');
 }
 
-// Verificar si hay sesión recordada al cargar
 function checkRememberedUser() {
     const remembered = localStorage.getItem('rememberUser');
-    
+
     if (remembered) {
         try {
             const data = JSON.parse(remembered);
             const daysSince = (Date.now() - data.timestamp) / (1000 * 60 * 60 * 24);
-            
-            // Si han pasado menos de 30 días, prellenar el email
+
             if (daysSince < 30) {
                 const emailInput = document.getElementById('loginEmailPage');
                 if (emailInput) {
@@ -1243,52 +1405,124 @@ function checkRememberedUser() {
     }
 }
 
-// ============ ACTUALIZAR FUNCIÓN DE LOGOUT ============
+function loginWithGoogle() {
+    toast('Conectando con Google...', 'default');
 
-function doLogout() {
-    if (!confirm('¿Cerrar sesión?')) return;
-    
-    // Limpiar datos del usuario actual
-    currentUser = null;
-    
-    // No eliminar la preferencia de recordar
-    // Solo limpiar la sesión actual
-    
-    saveState();
-    toast('Sesión cerrada exitosamente', 'success');
-    openSection('home');
+    setTimeout(() => {
+        const googleUser = {
+            id: 'google_' + Date.now(),
+            name: 'Usuario de Google',
+            email: 'usuario@gmail.com',
+            provider: 'google',
+            profilePicture: null,
+            isAdmin: false,
+            createdAt: new Date().toISOString()
+        };
+
+        let existingUser = users.find(u => u.email === googleUser.email);
+
+        if (existingUser) {
+            existingUser.provider = 'google';
+            existingUser.lastLogin = new Date().toISOString();
+            currentUser = existingUser;
+        } else {
+            googleUser.id = users.length + 1;
+            users.push(googleUser);
+            currentUser = googleUser;
+        }
+
+        saveState();
+        toast('Sesión iniciada con Google', 'success');
+        openSection('account');
+    }, 1500);
 }
 
-// ============ INICIALIZAR AL CARGAR LA PÁGINA ============
+function loginWithFacebook() {
+    toast('Conectando con Facebook...', 'default');
 
-// Agregar al final del initApp() existente:
-function initAppEnhanced() {
-    // Código existente de initApp()...
-    
-    // Verificar sesión recordada
+    setTimeout(() => {
+        const facebookUser = {
+            id: 'facebook_' + Date.now(),
+            name: 'Usuario de Facebook',
+            email: 'usuario@facebook.com',
+            provider: 'facebook',
+            profilePicture: null,
+            isAdmin: false,
+            createdAt: new Date().toISOString()
+        };
+
+        let existingUser = users.find(u => u.email === facebookUser.email);
+
+        if (existingUser) {
+            existingUser.provider = 'facebook';
+            existingUser.lastLogin = new Date().toISOString();
+            currentUser = existingUser;
+        } else {
+            facebookUser.id = users.length + 1;
+            users.push(facebookUser);
+            currentUser = facebookUser;
+        }
+
+        saveState();
+        toast('Sesión iniciada con Facebook', 'success');
+        openSection('account');
+    }, 1500);
+}
+
+function registerWithGoogle() {
+    loginWithGoogle();
+}
+
+function registerWithFacebook() {
+    loginWithFacebook();
+}
+
+function initApp() {
+    applyTheme();
+    renderCarousels();
+    populateFilters();
+    renderCatalog();
+    renderOffers();
+    renderCart();
+    renderFavorites();
+    renderCartCount();
+    initCategoryGrid();
     checkRememberedUser();
-    
-    // Verificar si hay sesión activa al cargar
-    if (currentUser) {
-        console.log('Sesión activa detectada:', currentUser.name);
+
+    document.getElementById('catalogSearch')?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') applyFilter();
+    });
+
+    if (users.length === 0) {
+        users.push({
+            id: 1,
+            name: 'Administrador',
+            email: 'admin@mjc.com',
+            password: 'admin123',
+            isAdmin: true
+        });
+        saveState();
     }
+
+    setTimeout(() => {
+        initializeCarousels();
+    }, 300);
 }
 
-// Agregar event listeners para Enter en campos de login
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const loginEmail = document.getElementById('loginEmailPage');
     const loginPass = document.getElementById('loginPassPage');
-    
+
     if (loginEmail) {
-        loginEmail.addEventListener('keypress', function(e) {
+        loginEmail.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 document.getElementById('loginPassPage').focus();
             }
         });
     }
-    
+
     if (loginPass) {
-        loginPass.addEventListener('keypress', function(e) {
+        loginPass.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 doLoginPage();
             }
@@ -1296,7 +1530,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-window.addEventListener('resize', () => renderCarousels());
+window.addEventListener('resize', () => {
+    renderCarousels();
+});
+
+// Exportar funciones globales
 window.openSection = openSection;
 window.openCategory = openCategory;
 window.viewDetail = viewDetail;
@@ -1330,12 +1568,13 @@ window.changeOrderStatus = changeOrderStatus;
 window.goToStep = goToStep;
 window.applyFilter = applyFilter;
 window.renderCatalog = renderCatalog;
-window.currentProductId = null;
 window.loginWithGoogle = loginWithGoogle;
 window.loginWithFacebook = loginWithFacebook;
 window.registerWithGoogle = registerWithGoogle;
 window.registerWithFacebook = registerWithFacebook;
 window.togglePasswordVisibility = togglePasswordVisibility;
 window.showForgotPassword = showForgotPassword;
+window.initializeCarousels = initializeCarousels;
 
+// Iniciar la aplicación
 initApp();
