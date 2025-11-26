@@ -13,7 +13,7 @@ const CATEGORIES = [
 let PRODUCTS = [
     {
         id: 1,
-        name: 'Filtro de Aceite Premium',
+        name: 'Filtro de Aceite',
         cat: 'Motor',
         sku: 'FD-001',
         price: 8500,
@@ -61,7 +61,7 @@ let PRODUCTS = [
     },
     {
         id: 5,
-        name: 'Alfombras Universales Premium',
+        name: 'Alfombras Universales',
         cat: 'Accesorios',
         sku: 'TP-11',
         price: 15500,
@@ -97,7 +97,7 @@ let PRODUCTS = [
     },
     {
         id: 9,
-        name: 'Limpiador de Motor Profesional',
+        name: 'Limpiador de Motor',
         cat: 'Limpieza',
         sku: 'LM-9',
         price: 8900,
