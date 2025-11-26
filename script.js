@@ -13,11 +13,11 @@ const CATEGORIES = [
 let PRODUCTS = [
     {
         id: 1,
-        name: 'Filtro Aceite',
+        name: 'Filtro de Aceite Premium',
         cat: 'Motor',
         sku: 'FD-001',
-        price: 39.9,
-        desc: 'Filtro de alto flujo para mejor performance',
+        price: 8500,
+        desc: 'Filtro de aceite de alta eficiencia con tecnología de filtración avanzada. Compatible con la mayoría de vehículos japoneses y americanos. Garantiza máxima protección del motor y excelente flujo de aceite.',
         images: 'Images/FiltroAceite.png',
         featured: true,
         best: true,
@@ -25,11 +25,11 @@ let PRODUCTS = [
     },
     {
         id: 2,
-        name: 'Aceite 20W50',
+        name: 'Aceite Sintético 20W50',
         cat: 'Lubricantes',
         sku: 'AC-020',
-        price: 24.5,
-        desc: 'Aceite multigrado para motores exigentes',
+        price: 18500,
+        desc: 'Aceite motor multigrado sintético de alta calidad. Proporciona excelente protección en climas tropicales y condiciones extremas. Reduce el desgaste del motor y mejora el rendimiento. Presentación de 4 litros.',
         images: 'Images/Aceite.png',
         featured: true,
         best: false,
@@ -37,11 +37,11 @@ let PRODUCTS = [
     },
     {
         id: 3,
-        name: 'Batería 12V',
+        name: 'Batería 12V 65AH',
         cat: 'Eléctrico',
         sku: 'BT-12',
-        price: 119.0,
-        desc: 'Batería de larga duración',
+        price: 65000,
+        desc: 'Batería de arranque libre de mantenimiento con tecnología de calcio-plata. Mayor durabilidad y resistencia a altas temperaturas. 650 amperios de arranque en frío. Garantía de 18 meses.',
         images: 'Images/Bateria.png',
         featured: false,
         best: true,
@@ -49,11 +49,11 @@ let PRODUCTS = [
     },
     {
         id: 4,
-        name: 'Pastillas de freno',
+        name: 'Pastillas de Freno Cerámicas',
         cat: 'Frenos',
         sku: 'PF-450',
-        price: 49.0,
-        desc: 'Juego de pastillas para distintos modelos',
+        price: 32000,
+        desc: 'Juego completo de pastillas de freno cerámicas de alto rendimiento. Menor generación de polvo y ruido. Excelente poder de frenado en mojado y seco. Compatible con múltiples modelos de vehículos asiáticos.',
         images: 'Images/PastillaFreno.png',
         featured: true,
         best: false,
@@ -61,11 +61,11 @@ let PRODUCTS = [
     },
     {
         id: 5,
-        name: 'Alfombras',
+        name: 'Alfombras Universales Premium',
         cat: 'Accesorios',
         sku: 'TP-11',
-        price: 29.0,
-        desc: 'Alfombras para todo tipo de vehículo',
+        price: 15500,
+        desc: 'Set de 4 alfombras universales de alta calidad con diseño antideslizante. Material resistente al agua y fácil de limpiar. Protegen el piso del vehículo contra suciedad y desgaste. Bordes reforzados.',
         images: 'Images/Alfombras.png',
         featured: false,
         best: true,
@@ -73,11 +73,11 @@ let PRODUCTS = [
     },
     {
         id: 6,
-        name: 'Amortiguador',
+        name: 'Amortiguador Hidráulico Reforzado',
         cat: 'Suspensión',
         sku: 'AM-X',
-        price: 89.0,
-        desc: 'Amortiguador reforzado',
+        price: 45000,
+        desc: 'Amortiguador de gas presurizado con tecnología de válvulas múltiples. Diseñado para carreteras costarricenses. Mejora estabilidad y confort. Construcción robusta que soporta condiciones severas. Precio por unidad.',
         images: 'Images/Amortiguadores.png',
         featured: false,
         best: false,
@@ -85,11 +85,11 @@ let PRODUCTS = [
     },
     {
         id: 7,
-        name: 'Luz LED',
+        name: 'Bombilla LED H4 6000K',
         cat: 'Iluminación',
         sku: 'LD-7',
-        price: 15.0,
-        desc: 'Bombilla LED alta intensidad',
+        price: 12500,
+        desc: 'Bombilla LED de alta intensidad con luz blanca brillante 6000K. Consume 80% menos energía que halógenos convencionales. Mayor visibilidad nocturna y vida útil de hasta 50,000 horas. Fácil instalación.',
         images: 'Images/BombilloLED.png',
         featured: false,
         best: false,
@@ -97,11 +97,11 @@ let PRODUCTS = [
     },
     {
         id: 9,
-        name: 'Limpiador Motor',
+        name: 'Limpiador de Motor Profesional',
         cat: 'Limpieza',
         sku: 'LM-9',
-        price: 12.5,
-        desc: 'Limpiador concentrado para motor',
+        price: 8900,
+        desc: 'Desengrasante concentrado biodegradable para limpieza profunda del motor. Elimina aceite, grasa y suciedad sin dañar componentes eléctricos. Fórmula profesional de acción rápida. Presentación de 500ml.',
         images: 'Images/Limpiador.png',
         featured: false,
         best: false,
@@ -117,7 +117,7 @@ let theme = localStorage.getItem('theme') || 'dark';
 let currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
 let users = JSON.parse(localStorage.getItem('users') || '[]');
 
-const money = v => '$' + v.toFixed(2);
+const money = v => '₡' + v.toLocaleString('es-CR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 function toast(msg, type = 'default') {
     const root = document.getElementById('toastApp');
